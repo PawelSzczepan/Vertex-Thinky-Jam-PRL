@@ -39,10 +39,12 @@ Material:
     m_Ints: []
     m_Floats:
     - _Displacement: 0
-    - _Displacement_Noise_Scale: 500
-    - _HalfTone_Size: 18
-    - _Max_Circle_Size: 1
-    - _Max_Displacement: 0.0039
+    - _Displacement_Noise_Scale: 100
+    - _EgdeSize: 0.75
+    - _Float: 0.35
+    - _HalfTone_Size: 15
+    - _Max_Circle_Size: 0.5
+    - _Max_Displacement: 0.0035
     - _testEgde: 0
     m_Colors: []
   m_BuildTextureStacks: []
