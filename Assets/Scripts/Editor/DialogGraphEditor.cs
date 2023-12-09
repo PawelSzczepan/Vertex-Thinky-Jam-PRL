@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
+using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -27,6 +28,18 @@ namespace Dialogs
 
         private void OnEnable()
         {
+            CreateGraphView();
+            CreateToolbar();
+        }
+
+        private void OnDisable()
+        {
+            rootVisualElement.Remove(graphView);
+        }
+
+
+        private void CreateGraphView()
+        {
             graphView = new DialogGraphView
             {
                 name = "Dialog Graph"
@@ -36,10 +49,28 @@ namespace Dialogs
             rootVisualElement.Add(graphView);
         }
 
-        private void OnDisable()
+        private void CreateToolbar()
         {
-            rootVisualElement.Remove(graphView);
+            Toolbar toolbar = new Toolbar();
+            rootVisualElement.Add(toolbar);
+
+            ToolbarMenu addMenu = new ToolbarMenu();
+            addMenu.text = "Add";
+            AppendAddingActions(addMenu);
+            toolbar.Add(addMenu);
+        }
+
+        private void CreateContextMenu()
+        {
+
+        }
+
+        private void AppendAddingActions(ToolbarMenu addMenu)
+        {
+            addMenu.menu.AppendAction("Thread Start", (DropdownMenuAction a) =>
+            {
+                graphView.AddThreadStart(new Vector2(0, 0));
+            });
         }
     }
-
 }

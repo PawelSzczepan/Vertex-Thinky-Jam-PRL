@@ -12,25 +12,40 @@ namespace Dialogs
 {
     public class DialogGraphView : GraphView
     {
+        private static Vector2 firstNodePos = new Vector2(100, 200);
+        private static Vector2 nodeSize = new Vector2(100, 150);
+
         public DialogGraphView()
         {
             this.AddManipulator(new ContentDragger());
             this.AddManipulator(new SelectionDragger());
             this.AddManipulator(new RectangleSelector());
+            this.AddManipulator(new ContextualMenuManipulator(CreateContextMenu));
 
-            AddThreadStart();
+            AddThreadStart(firstNodePos);
         }
 
-        public void AddThreadStart()
+        public void AddThreadStart(Vector2 position)
         {
+            Debug.Log($"Adding at position: {position}");
             ThreadStartNode threadStart = new ThreadStartNode
             {
                 title = "Thread start"
             };
 
-            threadStart.SetPosition(new Rect(100, 200, 100, 150));
+            threadStart.SetPosition(new Rect(position, nodeSize));
 
             AddElement(threadStart);
+        }
+
+
+        private void CreateContextMenu(ContextualMenuPopulateEvent e)
+        {
+            e.menu.AppendAction("Add Thread Start", (DropdownMenuAction a) =>
+            {
+                Vector2 mousePos = a.eventInfo.localMousePosition;
+                AddThreadStart(mousePos);
+            });
         }
     }
 }
