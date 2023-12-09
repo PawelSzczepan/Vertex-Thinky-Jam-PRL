@@ -41,6 +41,7 @@ namespace Dialogs
 
         private void CreateContextMenu(ContextualMenuPopulateEvent e)
         {
+            e.menu.ClearItems();
             e.menu.AppendAction("Add Thread Start", (DropdownMenuAction a) =>
             {
                 Vector2 mousePos = a.eventInfo.localMousePosition;
