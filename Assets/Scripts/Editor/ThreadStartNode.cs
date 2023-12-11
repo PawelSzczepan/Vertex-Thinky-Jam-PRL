@@ -10,7 +10,7 @@ namespace Dialogs
     public class ThreadStartNode : EditorDialogNode
     {
         public ThreadStartNode()
-            : base(nodeType: NodeType.ThreadStart)
+            : base(NodeType.PlayerChoice)
         {
             // Początek wątku nie ma wejść
             // I ma tylko jedno wyjście - pasujące tylko do NpcResponseNode
@@ -20,11 +20,12 @@ namespace Dialogs
             RefreshPorts();
         }
 
-        private void AddDefaultOutputPort()
+        public override DialogNode ToRuntimeNode()
         {
-            Port defaultPort = InstantiatePort(Orientation.Horizontal, Direction.Output, Port.Capacity.Single, typeof(bool)); // TODO: make a key
-            defaultPort.portName = "";
-            outputContainer.Add(defaultPort);
+            return new PlayerChoiceNode(new PlayerChoiceData
+            {
+                choiceText = "Thread Start. Hello there!"
+            });
         }
     }
 }

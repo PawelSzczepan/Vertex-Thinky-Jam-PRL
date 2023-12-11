@@ -11,16 +11,34 @@ namespace Dialogs
     {
         public enum NodeType
         {
-            ThreadStart,
             PlayerChoice,
             NpcResponse
         }
 
         private NodeType _nodeType;
 
+        public NodeType DialogNodeType => _nodeType;
+
+
         public EditorDialogNode(NodeType nodeType)
         {
             _nodeType = nodeType;
+        }
+
+        public abstract DialogNode ToRuntimeNode();
+
+        protected void AddDefaultOutputPort()
+        {
+            Port defaultPort = InstantiatePort(Orientation.Horizontal, Direction.Output, Port.Capacity.Single, typeof(bool)); // TODO: make a key
+            defaultPort.portName = "";
+            outputContainer.Add(defaultPort);
+        }
+
+        protected void AddDefaultInputPort()
+        {
+            Port defaultPort = InstantiatePort(Orientation.Horizontal, Direction.Input, Port.Capacity.Multi, typeof(bool)); // TODO: make a key
+            defaultPort.portName = "";
+            inputContainer.Add(defaultPort);
         }
     }
 }

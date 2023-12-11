@@ -62,9 +62,21 @@ namespace Dialogs
 
         private void AppendAddingActions(ToolbarMenu addMenu)
         {
-            addMenu.menu.AppendAction("Thread Start", (DropdownMenuAction a) =>
+            Vector2 newNodePos = new Vector2(0, 0);
+
+            addMenu.menu.AppendAction("Thread start", (DropdownMenuAction a) =>
             {
-                graphView.AddThreadStart(new Vector2(0, 0));
+                graphView.AddThreadStart(newNodePos);
+            });
+
+            addMenu.menu.AppendAction("NPC response", (DropdownMenuAction a) =>
+            {
+                graphView.AddNpcResponse(newNodePos);
+            });
+
+            addMenu.menu.AppendAction("Player choice", (DropdownMenuAction a) =>
+            {
+                graphView.AddPlayerChoice(newNodePos);
             });
         }
     }
