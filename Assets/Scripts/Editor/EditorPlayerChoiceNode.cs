@@ -20,7 +20,7 @@ namespace Dialogs
 
         public override DialogNode ToRuntimeNode()
         {
-            return new NpcResponseNode("Example response");
+            return new NpcResponseNode(DialogText);
         }
     }
 }

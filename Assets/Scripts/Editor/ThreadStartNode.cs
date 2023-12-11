@@ -24,7 +24,7 @@ namespace Dialogs
         {
             return new PlayerChoiceNode(new PlayerChoiceData
             {
-                choiceText = "Thread Start. Hello there!"
+                choiceText = DialogText
             });
         }
     }
