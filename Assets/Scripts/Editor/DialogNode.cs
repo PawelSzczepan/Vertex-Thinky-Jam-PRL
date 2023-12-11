@@ -7,7 +7,7 @@ using UnityEditor.Experimental.GraphView;
 
 namespace Dialogs
 {
-    public abstract class DialogNode : Node
+    public abstract class EditorDialogNode : Node
     {
         public enum NodeType
         {
@@ -18,7 +18,7 @@ namespace Dialogs
 
         private NodeType _nodeType;
 
-        public DialogNode(NodeType nodeType)
+        public EditorDialogNode(NodeType nodeType)
         {
             _nodeType = nodeType;
         }

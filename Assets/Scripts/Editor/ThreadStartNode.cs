@@ -7,7 +7,7 @@ using UnityEditor.Experimental.GraphView;
 
 namespace Dialogs
 {
-    public class ThreadStartNode : DialogNode
+    public class ThreadStartNode : EditorDialogNode
     {
         public ThreadStartNode()
             : base(nodeType: NodeType.ThreadStart)

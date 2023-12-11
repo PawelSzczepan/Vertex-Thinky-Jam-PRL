@@ -27,7 +27,6 @@ namespace Dialogs
 
         public void AddThreadStart(Vector2 position)
         {
-            Debug.Log($"Adding at position: {position}");
             ThreadStartNode threadStart = new ThreadStartNode
             {
                 title = "Thread start"
