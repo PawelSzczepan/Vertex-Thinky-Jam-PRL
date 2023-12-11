@@ -60,11 +60,6 @@ namespace Dialogs
             toolbar.Add(addMenu);
         }
 
-        private void CreateContextMenu()
-        {
-
-        }
-
         private void AppendAddingActions(ToolbarMenu addMenu)
         {
             addMenu.menu.AppendAction("Thread Start", (DropdownMenuAction a) =>
