@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace Dialogs
 {
-    public class EditorPlayerChoiceNode : EditorDialogNode
+    public class EditorPlayerResponseNode : EditorDialogNode
     {
-        public EditorPlayerChoiceNode()
-            : base(NodeType.PlayerChoice)
+        public EditorPlayerResponseNode()
+            : base(NodeType.PlayerResponse)
         {
             AddDefaultInputPort();
             AddDefaultOutputPort();

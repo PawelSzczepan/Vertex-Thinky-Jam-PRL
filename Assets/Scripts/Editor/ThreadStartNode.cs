@@ -10,7 +10,7 @@ namespace Dialogs
     public class ThreadStartNode : EditorDialogNode
     {
         public ThreadStartNode()
-            : base(NodeType.PlayerChoice)
+            : base(NodeType.PlayerResponse)
         {
             // Początek wątku nie ma wejść
             // I ma tylko jedno wyjście - pasujące tylko do NpcResponseNode
@@ -22,7 +22,7 @@ namespace Dialogs
 
         public override DialogNode ToRuntimeNode()
         {
-            return new PlayerChoiceNode(new PlayerChoiceData
+            return new PlayerResponseNode(new PlayerChoiceData
             {
                 choiceText = DialogText
             });

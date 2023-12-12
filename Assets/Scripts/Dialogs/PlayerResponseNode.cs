@@ -18,16 +18,16 @@ namespace Dialogs
         }
     }
 
-    public class PlayerChoiceNode : NoChoiceDialogNode
+    public class PlayerResponseNode : NoChoiceDialogNode
     {
         private PlayerChoiceData _data;
 
-        public PlayerChoiceNode(PlayerChoiceData data)
+        public PlayerResponseNode(PlayerChoiceData data)
         {
             _data = data;
         }
 
-        public PlayerChoiceNode(string dialogText)
+        public PlayerResponseNode(string dialogText)
         {
             _data = new PlayerChoiceData(dialogText);
         }

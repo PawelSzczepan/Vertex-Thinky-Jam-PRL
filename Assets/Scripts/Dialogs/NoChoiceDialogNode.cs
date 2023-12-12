@@ -19,7 +19,7 @@ namespace Dialogs
         public override void AppendToNextNodes(DialogNode newNode)
         {
             if (_nextNode != null)
-                Debug.LogError("Reassigning next node");
+                Debug.LogWarning("Reassigning next node");
 
             _nextNode = newNode;
         }

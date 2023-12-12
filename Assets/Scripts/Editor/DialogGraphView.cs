@@ -76,7 +76,7 @@ namespace Dialogs
 
         public void AddPlayerChoice(Vector2 position)
         {
-            EditorPlayerChoiceNode node = new EditorPlayerChoiceNode
+            EditorPlayerResponseNode node = new EditorPlayerResponseNode
             {
                 title = "Player choice"
             };

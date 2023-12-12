@@ -12,7 +12,7 @@ namespace Dialogs
     {
         public enum NodeType
         {
-            PlayerChoice,
+            PlayerResponse,
             NpcResponse
         }
 

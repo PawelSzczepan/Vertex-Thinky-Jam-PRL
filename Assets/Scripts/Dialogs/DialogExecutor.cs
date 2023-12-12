@@ -13,7 +13,7 @@ namespace Dialogs
 
         private DialogNode CreateTestDialogGraph()
         {
-            DialogNode threadStart = new PlayerChoiceNode("Dzień dobry, Pani!");
+            DialogNode threadStart = new PlayerResponseNode("Dzień dobry, Pani!");
 
             DialogNode npcResponse = new NpcResponseNode("Dzień dobry, Panu!");
             threadStart.AppendToNextNodes(npcResponse);
