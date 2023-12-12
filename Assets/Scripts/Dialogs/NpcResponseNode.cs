@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Dialogs
 {
-    public class NpcResponseNode : DialogNode
+    public class NpcResponseNode : NoChoiceDialogNode
     {
         private string _responseText;
 

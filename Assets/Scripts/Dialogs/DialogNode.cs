@@ -13,5 +13,8 @@ namespace Dialogs
         }
 
         public abstract ExecuteResult Execute(DialogRuntime runtime);
+
+        public abstract DialogNode GetNextNode();
+        public abstract void AppendToNextNodes(DialogNode newNode);
     }
 }
