@@ -20,6 +20,8 @@ namespace Dialogs
             RefreshPorts();
         }
 
+        public override string GetNodeTitle() => "Thread start";
+
         public override DialogNode ToRuntimeNode()
         {
             return new PlayerResponseNode(new PlayerChoiceData

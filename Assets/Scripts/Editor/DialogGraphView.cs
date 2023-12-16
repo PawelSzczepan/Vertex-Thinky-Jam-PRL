@@ -52,37 +52,29 @@ namespace Dialogs
             return compatibles;
         }
 
+        public void CreateNode<T>(Vector2 position) 
+            where T : EditorDialogNode, new() // Tylko nieabstrakcyjne EditorDialogNode'y
+        {
+            T node = new T();
+            node.title = node.GetNodeTitle();
+            node.SetPosition(new Rect(position, nodeSize));
+
+            AddElement(node);
+        }
+
         public void AddThreadStart(Vector2 position)
         {
-            ThreadStartNode threadStart = new ThreadStartNode
-            {
-                title = "Thread start"
-            };
-
-            threadStart.SetPosition(new Rect(position, nodeSize));
-            AddElement(threadStart);
+            CreateNode<ThreadStartNode>(position);
         }
 
         public void AddNpcResponse(Vector2 position)
         {
-            EditorNpcResponseNode node = new EditorNpcResponseNode
-            {
-                title = "NPC response"
-            };
-
-            node.SetPosition(new Rect(position, nodeSize));
-            AddElement(node);
+            CreateNode<EditorNpcResponseNode>(position);
         }
 
         public void AddPlayerChoice(Vector2 position)
         {
-            EditorPlayerResponseNode node = new EditorPlayerResponseNode
-            {
-                title = "Player choice"
-            };
-
-            node.SetPosition(new Rect(position, nodeSize));
-            AddElement(node);
+            CreateNode<EditorPlayerResponseNode>(position);
         }
 
 

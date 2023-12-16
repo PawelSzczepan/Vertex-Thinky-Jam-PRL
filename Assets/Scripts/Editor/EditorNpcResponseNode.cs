@@ -18,6 +18,8 @@ namespace Dialogs
             RefreshPorts();
         }
 
+        public override string GetNodeTitle() => "NPC response";
+
         public override DialogNode ToRuntimeNode()
         {
             return new NpcResponseNode("Example response");

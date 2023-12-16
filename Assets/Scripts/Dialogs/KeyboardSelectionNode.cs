@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace Dialogs
 {
-    public class KeyboardPlayerSelectionNode : PlayerSelectionNode
+    public class KeyboardSelectionNode : PlayerSelectionNode
     {
         private int _currentSelectedOptionIdx = 0;
 

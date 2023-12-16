@@ -13,7 +13,8 @@ namespace Dialogs
         public enum NodeType
         {
             PlayerResponse,
-            NpcResponse
+            NpcResponse,
+            PlayerSelectionNode
         }
 
         private TextField _dialogTextField;
@@ -36,6 +37,7 @@ namespace Dialogs
         }
 
         public abstract DialogNode ToRuntimeNode();
+        public abstract string GetNodeTitle();
 
         protected void AddDefaultOutputPort()
         {
