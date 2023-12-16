@@ -64,20 +64,13 @@ namespace Dialogs
         {
             Vector2 newNodePos = new Vector2(0, 0);
 
-            addMenu.menu.AppendAction("Thread start", (DropdownMenuAction a) =>
+            foreach(DialogGraphView.NodeCreationCommand creationCommand in graphView.CreationCommands)
             {
-                graphView.AddThreadStart(newNodePos);
-            });
-
-            addMenu.menu.AppendAction("NPC response", (DropdownMenuAction a) =>
-            {
-                graphView.AddNpcResponse(newNodePos);
-            });
-
-            addMenu.menu.AppendAction("Player choice", (DropdownMenuAction a) =>
-            {
-                graphView.AddPlayerChoice(newNodePos);
-            });
+                addMenu.menu.AppendAction(creationCommand.nodeTitle, (DropdownMenuAction a) =>
+                {
+                    graphView.CreateNode(creationCommand, newNodePos);
+                });
+            }
         }
     }
 }

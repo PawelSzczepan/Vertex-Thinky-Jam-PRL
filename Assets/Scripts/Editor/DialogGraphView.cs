@@ -15,6 +15,31 @@ namespace Dialogs
         private static Vector2 firstNodePos = new Vector2(100, 200);
         private static Vector2 nodeSize = new Vector2(100, 150);
 
+        public struct NodeCreationCommand
+        {
+            public string nodeTitle;
+            public Func<EditorDialogNode> nodeConstructor;
+        }
+
+        public List<NodeCreationCommand> CreationCommands { get; private set; } = new List<NodeCreationCommand>
+        {
+            new NodeCreationCommand
+            {
+                nodeTitle = "Thread start",
+                nodeConstructor = () => new ThreadStartNode()
+            },
+            new NodeCreationCommand
+            {
+                nodeTitle = "Npc response",
+                nodeConstructor = () => new EditorNpcResponseNode()
+            },
+            new NodeCreationCommand
+            {
+                nodeTitle = "Player response",
+                nodeConstructor = () => new EditorPlayerResponseNode()
+            }
+        };
+
         public DialogGraphView()
         {
             SetupZoom(ContentZoomer.DefaultMinScale, ContentZoomer.DefaultMaxScale);
@@ -24,7 +49,7 @@ namespace Dialogs
             this.AddManipulator(new RectangleSelector());
             this.AddManipulator(new ContextualMenuManipulator(CreateContextMenu));
 
-            AddThreadStart(firstNodePos);
+            CreateNode<ThreadStartNode>(firstNodePos);
         }
 
         public override List<Port> GetCompatiblePorts(Port startPort, NodeAdapter nodeAdapter)
@@ -56,25 +81,21 @@ namespace Dialogs
             where T : EditorDialogNode, new() // Tylko nieabstrakcyjne EditorDialogNode'y
         {
             T node = new T();
+            SetupNewNode(node, position);
+        }
+
+        public void CreateNode(NodeCreationCommand command, Vector2 position)
+        {
+            EditorDialogNode node = command.nodeConstructor();
+            SetupNewNode(node, position);
+        }
+
+        private void SetupNewNode(EditorDialogNode node, Vector2 position)
+        {
             node.title = node.GetNodeTitle();
             node.SetPosition(new Rect(position, nodeSize));
 
             AddElement(node);
-        }
-
-        public void AddThreadStart(Vector2 position)
-        {
-            CreateNode<ThreadStartNode>(position);
-        }
-
-        public void AddNpcResponse(Vector2 position)
-        {
-            CreateNode<EditorNpcResponseNode>(position);
-        }
-
-        public void AddPlayerChoice(Vector2 position)
-        {
-            CreateNode<EditorPlayerResponseNode>(position);
         }
 
 
@@ -82,23 +103,14 @@ namespace Dialogs
         {
             e.menu.ClearItems();
 
-            e.menu.AppendAction("Add thread start", (DropdownMenuAction a) =>
+            foreach(NodeCreationCommand creationCommand in CreationCommands)
             {
-                Vector2 nodePos = ExtractNodePositionFromDropdownMenuAction(a);
-                AddThreadStart(nodePos);
-            });
-
-            e.menu.AppendAction("Add NPC response", (DropdownMenuAction a) =>
-            {
-                Vector2 nodePos = ExtractNodePositionFromDropdownMenuAction(a);
-                AddNpcResponse(nodePos);
-            });
-
-            e.menu.AppendAction("Add player choice", (DropdownMenuAction a) =>
-            {
-                Vector2 nodePos = ExtractNodePositionFromDropdownMenuAction(a);
-                AddPlayerChoice(nodePos);
-            });
+                e.menu.AppendAction($"Add {creationCommand.nodeTitle}", (DropdownMenuAction a) =>
+                {
+                    Vector2 nodePos = ExtractNodePositionFromDropdownMenuAction(a);
+                    CreateNode(creationCommand, nodePos);
+                });
+            }
         }
 
         private Vector2 ExtractNodePositionFromDropdownMenuAction(DropdownMenuAction a) => a.eventInfo.localMousePosition;
