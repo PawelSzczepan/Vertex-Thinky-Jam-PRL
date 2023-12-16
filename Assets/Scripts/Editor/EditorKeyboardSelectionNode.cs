@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEditor.Experimental.GraphView;
 
 namespace Dialogs
 {
@@ -20,5 +21,9 @@ namespace Dialogs
         {
             return new KeyboardSelectionNode();
         }
+
+        protected override bool HasInputPort() => true;
+
+        protected override Port.Capacity GetOutputCapacity() => Port.Capacity.Multi;
     }
 }

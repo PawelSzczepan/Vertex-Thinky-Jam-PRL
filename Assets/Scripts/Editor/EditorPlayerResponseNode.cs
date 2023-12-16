@@ -3,19 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEditor.Experimental.GraphView;
 
 namespace Dialogs
 {
-    public class EditorPlayerResponseNode : EditorDialogNode
+    public class EditorPlayerResponseNode : EditorResponseNode
     {
         public EditorPlayerResponseNode()
             : base(NodeType.PlayerResponse)
         {
-            AddDefaultInputPort();
-            AddDefaultOutputPort();
-
-            RefreshExpandedState();
-            RefreshPorts();
         }
 
         public override string GetNodeTitle() => "Player choice";
@@ -24,5 +20,8 @@ namespace Dialogs
         {
             return new NpcResponseNode(DialogText);
         }
+
+        protected override bool HasInputPort() => true;
+        protected override Port.Capacity GetOutputCapacity() => Port.Capacity.Single;
     }
 }

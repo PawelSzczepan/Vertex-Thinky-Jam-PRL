@@ -3,26 +3,25 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEditor.Experimental.GraphView;
 
 namespace Dialogs
 {
-    public class EditorNpcResponseNode : EditorDialogNode
+    public class EditorNpcResponseNode : EditorResponseNode
     {
         public EditorNpcResponseNode()
             : base(NodeType.NpcResponse)
         {
-            AddDefaultInputPort();
-            AddDefaultOutputPort();
-
-            RefreshExpandedState();
-            RefreshPorts();
         }
 
         public override string GetNodeTitle() => "NPC response";
 
         public override DialogNode ToRuntimeNode()
         {
-            return new NpcResponseNode("Example response");
+            return new NpcResponseNode(DialogText);
         }
+
+        protected override bool HasInputPort() => true;
+        protected override Port.Capacity GetOutputCapacity() => Port.Capacity.Single;
     }
 }

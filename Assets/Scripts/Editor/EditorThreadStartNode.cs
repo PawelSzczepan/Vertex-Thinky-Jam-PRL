@@ -7,17 +7,12 @@ using UnityEditor.Experimental.GraphView;
 
 namespace Dialogs
 {
-    public class ThreadStartNode : EditorDialogNode
+    public class ThreadStartNode : EditorResponseNode
     {
         public ThreadStartNode()
             : base(NodeType.PlayerResponse)
         {
-            // Początek wątku nie ma wejść
-            // I ma tylko jedno wyjście - pasujące tylko do NpcResponseNode
-            AddDefaultOutputPort();
 
-            RefreshExpandedState();
-            RefreshPorts();
         }
 
         public override string GetNodeTitle() => "Thread start";
@@ -29,5 +24,9 @@ namespace Dialogs
                 choiceText = DialogText
             });
         }
+
+
+        protected override bool HasInputPort() => false;
+        protected override Port.Capacity GetOutputCapacity() => Port.Capacity.Single;
     }
 }

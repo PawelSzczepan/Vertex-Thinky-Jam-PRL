@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEditor.Experimental.GraphView;
-using UnityEngine.UIElements;
 
 namespace Dialogs
 {
@@ -17,38 +16,41 @@ namespace Dialogs
             PlayerSelectionNode
         }
 
-        private TextField _dialogTextField;
         private NodeType _nodeType;
 
         public NodeType DialogNodeType => _nodeType;
-        public string DialogText => _dialogTextField.text;
 
 
         public EditorDialogNode(NodeType nodeType)
         {
             _nodeType = nodeType;
 
-            _dialogTextField = new TextField();
-            _dialogTextField.multiline = true;
-            extensionContainer.Add(new Label("Dialog text:"));
-            extensionContainer.Add(_dialogTextField);
+            if(HasInputPort())
+            {
+                AddInputPort(Port.Capacity.Multi);
+            }
+            AddOutputPort( GetOutputCapacity() );
 
             RefreshExpandedState();
+            RefreshPorts();
         }
 
         public abstract DialogNode ToRuntimeNode();
         public abstract string GetNodeTitle();
 
-        protected void AddDefaultOutputPort()
+        protected abstract bool HasInputPort(); // Note: should give valid answer before construction
+        protected abstract Port.Capacity GetOutputCapacity(); // Note: should give valid answer before construction
+
+        private void AddOutputPort(Port.Capacity capacity)
         {
-            Port defaultPort = InstantiatePort(Orientation.Horizontal, Direction.Output, Port.Capacity.Single, typeof(bool)); // TODO: make a key
+            Port defaultPort = InstantiatePort(Orientation.Horizontal, Direction.Output, capacity, typeof(bool));
             defaultPort.portName = "";
             outputContainer.Add(defaultPort);
         }
 
-        protected void AddDefaultInputPort()
+        private void AddInputPort(Port.Capacity capacity)
         {
-            Port defaultPort = InstantiatePort(Orientation.Horizontal, Direction.Input, Port.Capacity.Multi, typeof(bool)); // TODO: make a key
+            Port defaultPort = InstantiatePort(Orientation.Horizontal, Direction.Input, capacity, typeof(bool));
             defaultPort.portName = "";
             inputContainer.Add(defaultPort);
         }

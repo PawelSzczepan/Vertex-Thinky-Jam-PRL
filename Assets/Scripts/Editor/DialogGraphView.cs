@@ -22,7 +22,7 @@ namespace Dialogs
         }
 
         public List<NodeCreationCommand> CreationCommands { get; private set; } = new List<NodeCreationCommand>
-        {
+        { // Tutaj dodajemy opisy wszystkich dostępnych komend stworzenia node'ów
             new NodeCreationCommand
             {
                 nodeTitle = "Thread start",
@@ -37,6 +37,11 @@ namespace Dialogs
             {
                 nodeTitle = "Player response",
                 nodeConstructor = () => new EditorPlayerResponseNode()
+            },
+            new NodeCreationCommand
+            {
+                nodeTitle = "Keyboard selection",
+                nodeConstructor = () => new EditorKeyboardSelectionNode()
             }
         };
 
