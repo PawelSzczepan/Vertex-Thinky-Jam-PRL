@@ -9,7 +9,7 @@ namespace Dialogs
 {
     public class KeyboardPlayerSelectionNode : PlayerSelectionNode
     {
-        int _currentSelectedOptionIdx = 0;
+        private int _currentSelectedOptionIdx = 0;
 
         public override ExecuteResult Execute(DialogRuntime runtime)
         {
@@ -32,6 +32,8 @@ namespace Dialogs
 
         private void ProcessOptionsNavigation()
         {
+            bool selectedOptionChanged = false;
+
             if (Input.GetKeyDown(KeyCode.DownArrow))
             {
                 _currentSelectedOptionIdx++;
@@ -39,6 +41,8 @@ namespace Dialogs
                 {
                     _currentSelectedOptionIdx = 0;
                 }
+
+                selectedOptionChanged = true;
             }
 
             if (Input.GetKeyDown(KeyCode.UpArrow))
@@ -48,6 +52,14 @@ namespace Dialogs
                 {
                     _currentSelectedOptionIdx = _playerOptions.Count - 1;
                 }
+
+                selectedOptionChanged = true;
+            }
+
+            if(selectedOptionChanged)
+            {
+                Debug.Log($"Selected option: {_playerOptions[_currentSelectedOptionIdx].ChoiceText}");
+                // TODO: notyfikacja o zmianie opcji
             }
         }
     }

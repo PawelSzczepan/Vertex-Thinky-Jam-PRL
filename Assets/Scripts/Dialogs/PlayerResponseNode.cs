@@ -37,5 +37,7 @@ namespace Dialogs
             runtime.DisplayChosenDialogOption(_data.textInDialog);
             return ExecuteResult.Finished;
         }
+
+        public string ChoiceText => _data.choiceText;
     }
 }

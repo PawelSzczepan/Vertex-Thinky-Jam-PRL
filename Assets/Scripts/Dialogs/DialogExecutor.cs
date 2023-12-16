@@ -15,8 +15,21 @@ namespace Dialogs
         {
             DialogNode threadStart = new PlayerResponseNode("Dzień dobry, Pani!");
 
-            DialogNode npcResponse = new NpcResponseNode("Dzień dobry, Panu!");
+            DialogNode npcResponse = new NpcResponseNode("Dzień dobry, Panu! Czy to nie jest piękny dzień na palenie niewiernych?");
             threadStart.AppendToNextNodes(npcResponse);
+
+            KeyboardPlayerSelectionNode playerSelectionNode = new KeyboardPlayerSelectionNode();
+            npcResponse.AppendToNextNodes(playerSelectionNode);
+
+            DialogNode playerResponse1 = new PlayerResponseNode("Nikt się nie spodziewa hiszpańskiej inkwizycji!");
+            playerSelectionNode.AppendToNextNodes(playerResponse1);
+
+            DialogNode playerResponse2 = new PlayerResponseNode(new PlayerChoiceData
+            { 
+                choiceText = "Nie [Rozpocznij walkę na kciuki]",
+                textInDialog = "Nie." 
+            });
+            playerSelectionNode.AppendToNextNodes(playerResponse2);
 
             return threadStart;
         }
