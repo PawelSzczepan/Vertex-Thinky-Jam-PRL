@@ -97,51 +97,14 @@ namespace Dialogs
 
         public byte[] Serialize()
         {
-            List<byte[]> serializedNodes = new List<byte[]>();
-            int totalBytes = 0;
-
-            foreach(Node node in nodes)
-            {
-                EditorDialogNode dialogNode = (EditorDialogNode)node;
-
-                SerializedNodeData serializedData = new SerializedNodeData();
-                serializedData.bytes = dialogNode.Serialize();
-                serializedData.nodeType = dialogNode.DialogNodeType;
-                serializedData.nodePosition = dialogNode.GetPosition().position;
-
-                byte[] bytes = serializedData.Serialize();
-                serializedNodes.Add(bytes);
-                totalBytes += bytes.Length;
-            }
-
-            // Merge chains
-            byte[] summedBytes = new byte[totalBytes];
-            int currIdx = 0;
-            foreach(byte[] bytesPart in serializedNodes)
-            {
-                bytesPart.CopyTo(summedBytes, currIdx);
-                currIdx += bytesPart.Length;
-            }
-
-            return summedBytes;
+            return new Serializer().SerializeNodes(nodes);
         }
 
         public void Deserialize(byte[] bytes)
         {
             DeleteElements(graphElements);
 
-            List<SerializedNodeData> deserializedNodes = new List<SerializedNodeData>();
-
-            int consumedBytesTotal = 0;
-            while(consumedBytesTotal < bytes.Length)
-            {
-                SerializedNodeData nodeData = new SerializedNodeData();
-
-                nodeData.Deserialize(bytes, consumedBytesTotal, out int consumedBytes);
-                consumedBytesTotal += consumedBytes;
-
-                deserializedNodes.Add(nodeData);
-            }
+            List<SerializedNodeData> deserializedNodes = new Serializer().DeserializeNodes(bytes);
 
             // Instantiate nodes
             foreach(SerializedNodeData nodeData in deserializedNodes)
@@ -196,6 +159,58 @@ namespace Dialogs
             }
 
             throw new NotImplementedException();
+        }
+
+        private class Serializer
+        {
+            public byte[] SerializeNodes(UQueryState<Node> nodes)
+            {
+                List<byte[]> serializedNodes = new List<byte[]>();
+                int totalBytes = 0;
+
+                foreach (Node node in nodes)
+                {
+                    EditorDialogNode dialogNode = (EditorDialogNode)node;
+
+                    SerializedNodeData serializedData = new SerializedNodeData();
+                    serializedData.bytes = dialogNode.Serialize();
+                    serializedData.nodeType = dialogNode.DialogNodeType;
+                    serializedData.nodePosition = dialogNode.GetPosition().position;
+
+                    byte[] bytes = serializedData.Serialize();
+                    serializedNodes.Add(bytes);
+                    totalBytes += bytes.Length;
+                }
+
+                // Merge chains
+                byte[] summedBytes = new byte[totalBytes];
+                int currIdx = 0;
+                foreach (byte[] bytesPart in serializedNodes)
+                {
+                    bytesPart.CopyTo(summedBytes, currIdx);
+                    currIdx += bytesPart.Length;
+                }
+
+                return summedBytes;
+            }
+
+            public List<SerializedNodeData> DeserializeNodes(byte[] bytes)
+            {
+                List<SerializedNodeData> deserializedNodes = new List<SerializedNodeData>();
+
+                int consumedBytesTotal = 0;
+                while (consumedBytesTotal < bytes.Length)
+                {
+                    SerializedNodeData nodeData = new SerializedNodeData();
+
+                    nodeData.Deserialize(bytes, consumedBytesTotal, out int consumedBytes);
+                    consumedBytesTotal += consumedBytes;
+
+                    deserializedNodes.Add(nodeData);
+                }
+
+                return deserializedNodes;
+            }
         }
 
         private struct SerializedNodeData
