@@ -107,6 +107,7 @@ namespace Dialogs
                 SerializedNodeData serializedData = new SerializedNodeData();
                 serializedData.bytes = dialogNode.Serialize();
                 serializedData.nodeType = dialogNode.DialogNodeType;
+                serializedData.nodePosition = dialogNode.GetPosition().position;
 
                 byte[] bytes = serializedData.Serialize();
                 serializedNodes.Add(bytes);
@@ -143,14 +144,11 @@ namespace Dialogs
             }
 
             // Instantiate nodes
-            int i = 0;
             foreach(SerializedNodeData nodeData in deserializedNodes)
             {
                 EditorDialogNode node = InstantiateNodeFromType(nodeData.nodeType);
                 node.Deserialize(nodeData.bytes);
-                SetupNewNode(node, firstNodePos + i * Vector2.right * 10.0f); // TODO: deserialize position
-
-                i++;
+                SetupNewNode(node, nodeData.nodePosition);
             }
         }
 
@@ -204,18 +202,30 @@ namespace Dialogs
         {
             public byte[] bytes;
             public EditorDialogNode.NodeType nodeType;
-            // TODO: public Vector2 nodePosition;
+            public Vector2 nodePosition;
 
             public byte[] Serialize()
             {
-                byte[] outBytes = new byte[sizeof(int) + bytes.Length + sizeof(byte)];
+                byte[] outBytes = new byte[sizeof(int) + bytes.Length + 1 + 2*sizeof(float)];
+                int bytesSaved = 0;
 
                 byte[] bytesSize = BitConverter.GetBytes(bytes.Length);
-                bytesSize.CopyTo(outBytes, 0);
+                bytesSize.CopyTo(outBytes, bytesSaved);
+                bytesSaved += bytesSize.Length;
 
-                bytes.CopyTo(outBytes, sizeof(int));
+                bytes.CopyTo(outBytes, bytesSaved);
+                bytesSaved += bytes.Length;
 
-                outBytes[sizeof(int) + bytes.Length] = (byte)nodeType;
+                outBytes[bytesSaved] = (byte)nodeType;
+                bytesSaved += 1;
+
+                byte[] positionXSerialized = BitConverter.GetBytes(nodePosition.x);
+                positionXSerialized.CopyTo(outBytes, bytesSaved);
+                bytesSaved += positionXSerialized.Length;
+
+                byte[] positionYSerialized = BitConverter.GetBytes(nodePosition.y);
+                positionYSerialized.CopyTo(outBytes, bytesSaved);
+                bytesSaved += positionYSerialized.Length;
 
                 return outBytes;
             }
@@ -234,6 +244,11 @@ namespace Dialogs
 
                 nodeType = (EditorDialogNode.NodeType) inBytes[startIndex + consumedBytes];
                 consumedBytes += sizeof(byte);
+
+                nodePosition.x = BitConverter.ToSingle(inBytes, startIndex + consumedBytes);
+                consumedBytes += sizeof(float);
+                nodePosition.y = BitConverter.ToSingle(inBytes, startIndex + consumedBytes);
+                consumedBytes += sizeof(float);
             }
         }
     }
