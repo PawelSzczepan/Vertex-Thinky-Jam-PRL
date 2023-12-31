@@ -206,28 +206,60 @@ namespace Dialogs
 
             public byte[] Serialize()
             {
-                byte[] outBytes = new byte[sizeof(int) + bytes.Length + 1 + 2*sizeof(float)];
-                int bytesSaved = 0;
+                Serializer serializer = new Serializer(sizeof(int) + bytes.Length + 1 + 2 * sizeof(float));
 
-                byte[] bytesSize = BitConverter.GetBytes(bytes.Length);
-                bytesSize.CopyTo(outBytes, bytesSaved);
-                bytesSaved += bytesSize.Length;
+                serializer.SerializeInt(bytes.Length);
+                serializer.SerializeBytes(bytes);
 
-                bytes.CopyTo(outBytes, bytesSaved);
-                bytesSaved += bytes.Length;
+                serializer.SerializeByte((byte)nodeType);
 
-                outBytes[bytesSaved] = (byte)nodeType;
-                bytesSaved += 1;
+                serializer.SerializeFloat(nodePosition.x);
+                serializer.SerializeFloat(nodePosition.y);
 
-                byte[] positionXSerialized = BitConverter.GetBytes(nodePosition.x);
-                positionXSerialized.CopyTo(outBytes, bytesSaved);
-                bytesSaved += positionXSerialized.Length;
+                return serializer.GetSerialization();
+            }
 
-                byte[] positionYSerialized = BitConverter.GetBytes(nodePosition.y);
-                positionYSerialized.CopyTo(outBytes, bytesSaved);
-                bytesSaved += positionYSerialized.Length;
+            private class Serializer
+            {
+                private int _bytesSaved;
+                private int _declaredBytes;
+                private byte[] _serializedBytes;
 
-                return outBytes;
+                public Serializer(int requiredBytes)
+                {
+                    _declaredBytes = requiredBytes;
+                    _serializedBytes = new byte[_declaredBytes];
+                    _bytesSaved = 0;
+                }
+
+                public byte[] GetSerialization()
+                {
+                    return _serializedBytes;
+                }
+
+                public void SerializeInt(int value)
+                {
+                    byte[] valueAsBytes = BitConverter.GetBytes(value);
+                    SerializeBytes(valueAsBytes);
+                }
+
+                public void SerializeBytes(byte[] bytes)
+                {
+                    bytes.CopyTo(_serializedBytes, _bytesSaved);
+                    _bytesSaved += bytes.Length;
+                }
+
+                public void SerializeByte(byte b)
+                {
+                    _serializedBytes[_bytesSaved] = b;
+                    _bytesSaved++;
+                }
+
+                public void SerializeFloat(float value)
+                {
+                    byte[] valueAsBytes = BitConverter.GetBytes(value);
+                    SerializeBytes(valueAsBytes);
+                }
             }
 
             public void Deserialize(byte[] inBytes, int startIndex, out int consumedBytes)
