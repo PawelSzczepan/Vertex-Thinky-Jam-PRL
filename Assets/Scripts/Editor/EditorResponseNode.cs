@@ -11,7 +11,11 @@ namespace Dialogs
     public abstract class EditorResponseNode : EditorDialogNode
     {
         private TextField _dialogTextField;
-        public string DialogText => _dialogTextField.text;
+        public string DialogText
+        {
+            get => _dialogTextField.value;
+            protected set => _dialogTextField.value = value;
+        }
 
         public EditorResponseNode(NodeType nodeType)
             : base(nodeType)
@@ -22,6 +26,16 @@ namespace Dialogs
             extensionContainer.Add(_dialogTextField);
 
             RefreshExpandedState();
+        }
+
+        public override byte[] Serialize()
+        {
+            return Encoding.UTF8.GetBytes(DialogText);
+        }
+
+        public override void Deserialize(byte[] bytes)
+        {
+            DialogText = Encoding.UTF8.GetString(bytes);
         }
     }
 }

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
@@ -54,6 +55,11 @@ namespace Dialogs
             Toolbar toolbar = new Toolbar();
             rootVisualElement.Add(toolbar);
 
+            ToolbarMenu fileMenu = new ToolbarMenu();
+            fileMenu.text = "File";
+            AppendFileActions(fileMenu);
+            toolbar.Add(fileMenu);
+
             ToolbarMenu addMenu = new ToolbarMenu();
             addMenu.text = "Add";
             AppendAddingActions(addMenu);
@@ -70,6 +76,40 @@ namespace Dialogs
                 {
                     graphView.CreateNode(creationCommand, newNodePos);
                 });
+            }
+        }
+
+        private void AppendFileActions(ToolbarMenu fileMenu)
+        {
+            fileMenu.menu.AppendAction("Load", (DropdownMenuAction a) =>
+            {
+                ShowLoadGraphFile();
+            });
+            fileMenu.menu.AppendAction("Save", (DropdownMenuAction a) =>
+            {
+                ShowSaveGraphFile();
+            });
+        }
+
+        private void ShowLoadGraphFile()
+        {
+            string filePath = EditorUtility.OpenFilePanel(title: "Select dialog graph", directory: "Assets", extension: "dlg");
+            if(filePath.Length != 0)
+            {
+                byte[] fileContent = File.ReadAllBytes(filePath);
+                graphView.Deserialize(fileContent);
+            }
+        }
+
+        private void ShowSaveGraphFile()
+        {
+            byte[] serializedGraph = graphView.Serialize();
+
+            string filePath = EditorUtility.SaveFilePanel(title: "New dialog graph file", directory: "Assets", defaultName: "NewDialog", extension: "dlg");
+
+            if(filePath.Length != 0)
+            {
+                File.WriteAllBytes(filePath, serializedGraph);
             }
         }
     }

@@ -10,7 +10,7 @@ namespace Dialogs
     public class EditorKeyboardSelectionNode : EditorDialogNode
     {
         public EditorKeyboardSelectionNode()
-            : base(NodeType.PlayerSelectionNode)
+            : base(NodeType.KeyboardSelectionNode)
         {
 
         }
@@ -20,6 +20,16 @@ namespace Dialogs
         public override DialogNode ToRuntimeNode()
         {
             return new KeyboardSelectionNode();
+        }
+
+        public override byte[] Serialize()
+        {
+            return new byte[0]; // Nothing to save
+        }
+
+        public override void Deserialize(byte[] bytes)
+        {
+            return;
         }
 
         protected override bool HasInputPort() => true;

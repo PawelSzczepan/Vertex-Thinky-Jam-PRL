@@ -13,7 +13,8 @@ namespace Dialogs
         {
             PlayerResponse,
             NpcResponse,
-            PlayerSelectionNode
+            KeyboardSelectionNode,
+            ThreadStartNode
         }
 
         private NodeType _nodeType;
@@ -37,6 +38,9 @@ namespace Dialogs
 
         public abstract DialogNode ToRuntimeNode();
         public abstract string GetNodeTitle();
+
+        public abstract byte[] Serialize();
+        public abstract void Deserialize(byte[] bytes);
 
         protected abstract bool HasInputPort(); // Note: should give valid answer before construction
         protected abstract Port.Capacity GetOutputCapacity(); // Note: should give valid answer before construction

@@ -10,7 +10,7 @@ namespace Dialogs
     public class ThreadStartNode : EditorResponseNode
     {
         public ThreadStartNode()
-            : base(NodeType.PlayerResponse)
+            : base(NodeType.ThreadStartNode)
         {
 
         }
