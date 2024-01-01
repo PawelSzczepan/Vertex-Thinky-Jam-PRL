@@ -97,14 +97,35 @@ namespace Dialogs
 
         public byte[] Serialize()
         {
-            return new Serializer().SerializeNodes(nodes);
+            Serializer serializer = new Serializer();
+            byte[] nodesSerialized = serializer.SerializeNodes(nodes);
+
+            byte[] edgesSerialized = serializer.SerializeEdges(edges);
+
+            int requiredBytes = sizeof(int) + nodesSerialized.Length + sizeof(int) + edgesSerialized.Length;
+            Serialization.BinarySerializer mergingSerializer = new Serialization.BinarySerializer(requiredBytes);
+            mergingSerializer.SerializeInt(nodesSerialized.Length);
+            mergingSerializer.SerializeBytes(nodesSerialized);
+            mergingSerializer.SerializeInt(edgesSerialized.Length);
+            mergingSerializer.SerializeBytes(edgesSerialized);
+
+            return mergingSerializer.GetSerialization();
         }
 
         public void Deserialize(byte[] bytes)
         {
             DeleteElements(graphElements);
 
-            List<SerializedNodeData> deserializedNodes = new Serializer().DeserializeNodes(bytes);
+            Serialization.BinaryDeserializer splittingDeserializer = new Serialization.BinaryDeserializer(bytes);
+
+            int nodesSerializedSize = splittingDeserializer.DeserializeInt();
+            byte[] nodesSerialized = splittingDeserializer.DeserializeBytes(nodesSerializedSize);
+
+            int edgesSerializedSize = splittingDeserializer.DeserializeInt();
+            byte[] edgesSerialized = splittingDeserializer.DeserializeBytes(edgesSerializedSize);
+
+            Serializer deserializer = new Serializer();
+            List<SerializedNodeData> deserializedNodes = deserializer.DeserializeNodes(nodesSerialized);
 
             // Instantiate nodes
             foreach(SerializedNodeData nodeData in deserializedNodes)
@@ -112,6 +133,30 @@ namespace Dialogs
                 EditorDialogNode node = InstantiateNodeFromType(nodeData.nodeType);
                 node.Deserialize(nodeData.bytes);
                 SetupNewNode(node, nodeData.nodePosition);
+            }
+
+            // Edges
+            List<(int, int)> deserializedEdges = deserializer.DeserializeEdges(edgesSerialized);
+
+            Node[] nodesArr = nodes.ToArray();
+            foreach((int v1, int v2) in deserializedEdges)
+            {
+                Node inputNode = nodesArr[v1];
+                Node outputNode = nodesArr[v2];
+
+                Port inputPort = inputNode.inputContainer.Q<Port>();
+                Port outputPort = outputNode.outputContainer.Q<Port>();
+                if (inputPort == null || outputPort == null)
+                {
+                    Debug.LogError("Failed to deserialize edge");
+                    continue;
+                }
+
+                Edge instantiatedEdge = outputPort.ConnectTo(inputPort);
+                inputNode.RefreshPorts();
+                outputNode.RefreshPorts();
+
+                AddElement(instantiatedEdge);
             }
         }
 
@@ -152,7 +197,7 @@ namespace Dialogs
                     return new EditorNpcResponseNode();
 
                 case EditorDialogNode.NodeType.KeyboardSelectionNode:
-                    return new EditorKeyboardSelectionNode(); // This will be wrong if we add other selection node types
+                    return new EditorKeyboardSelectionNode();
 
                 case EditorDialogNode.NodeType.ThreadStartNode:
                     return new ThreadStartNode();
@@ -163,11 +208,16 @@ namespace Dialogs
 
         private class Serializer
         {
+            private Dictionary<Node, int> _nodeToIndex;
+
             public byte[] SerializeNodes(UQueryState<Node> nodes)
             {
+                _nodeToIndex = new Dictionary<Node, int>();
+
                 List<byte[]> serializedNodes = new List<byte[]>();
                 int totalBytes = 0;
 
+                int i = 0;
                 foreach (Node node in nodes)
                 {
                     EditorDialogNode dialogNode = (EditorDialogNode)node;
@@ -180,18 +230,18 @@ namespace Dialogs
                     byte[] bytes = serializedData.Serialize();
                     serializedNodes.Add(bytes);
                     totalBytes += bytes.Length;
+
+                    _nodeToIndex.Add(node, i);
+                    i++;
                 }
 
                 // Merge chains
-                byte[] summedBytes = new byte[totalBytes];
-                int currIdx = 0;
-                foreach (byte[] bytesPart in serializedNodes)
+                Serialization.BinarySerializer mergingSerializer = new Serialization.BinarySerializer(totalBytes);
+                foreach(byte[] bytesPart in serializedNodes)
                 {
-                    bytesPart.CopyTo(summedBytes, currIdx);
-                    currIdx += bytesPart.Length;
+                    mergingSerializer.SerializeBytes(bytesPart);
                 }
-
-                return summedBytes;
+                return mergingSerializer.GetSerialization();
             }
 
             public List<SerializedNodeData> DeserializeNodes(byte[] bytes)
@@ -211,6 +261,36 @@ namespace Dialogs
 
                 return deserializedNodes;
             }
+
+            public byte[] SerializeEdges(UQueryState<Edge> edges)
+            {
+                int requiredBytes = edges.Count() * 2 * sizeof(int);
+                Serialization.BinarySerializer serializer = new Serialization.BinarySerializer(requiredBytes);
+
+                foreach (Edge edge in edges)
+                {
+                    serializer.SerializeInt(_nodeToIndex[edge.input.node]);
+                    serializer.SerializeInt(_nodeToIndex[edge.output.node]);
+                }
+
+                return serializer.GetSerialization();
+            }
+
+            public List<(int,int)> DeserializeEdges(byte[] bytes)
+            {
+                List<(int, int)> edges = new List<(int, int)>();
+
+                Serialization.BinaryDeserializer deserializer = new Serialization.BinaryDeserializer(bytes);
+
+                while(deserializer.GetConsumedBytes() < bytes.Length)
+                {
+                    int edgeInput = deserializer.DeserializeInt();
+                    int edgeOutput = deserializer.DeserializeInt();
+                    edges.Add((edgeInput, edgeOutput));
+                }
+
+                return edges;
+            }
         }
 
         private struct SerializedNodeData
@@ -221,7 +301,7 @@ namespace Dialogs
 
             public byte[] Serialize()
             {
-                Serializer serializer = new Serializer(sizeof(int) + bytes.Length + 1 + 2 * sizeof(float));
+                Serialization.BinarySerializer serializer = new Serialization.BinarySerializer(sizeof(int) + bytes.Length + 1 + 2 * sizeof(float));
 
                 serializer.SerializeInt(bytes.Length);
                 serializer.SerializeBytes(bytes);
@@ -234,68 +314,19 @@ namespace Dialogs
                 return serializer.GetSerialization();
             }
 
-            private class Serializer
-            {
-                private int _bytesSaved;
-                private int _declaredBytes;
-                private byte[] _serializedBytes;
-
-                public Serializer(int requiredBytes)
-                {
-                    _declaredBytes = requiredBytes;
-                    _serializedBytes = new byte[_declaredBytes];
-                    _bytesSaved = 0;
-                }
-
-                public byte[] GetSerialization()
-                {
-                    return _serializedBytes;
-                }
-
-                public void SerializeInt(int value)
-                {
-                    byte[] valueAsBytes = BitConverter.GetBytes(value);
-                    SerializeBytes(valueAsBytes);
-                }
-
-                public void SerializeBytes(byte[] bytes)
-                {
-                    bytes.CopyTo(_serializedBytes, _bytesSaved);
-                    _bytesSaved += bytes.Length;
-                }
-
-                public void SerializeByte(byte b)
-                {
-                    _serializedBytes[_bytesSaved] = b;
-                    _bytesSaved++;
-                }
-
-                public void SerializeFloat(float value)
-                {
-                    byte[] valueAsBytes = BitConverter.GetBytes(value);
-                    SerializeBytes(valueAsBytes);
-                }
-            }
-
             public void Deserialize(byte[] inBytes, int startIndex, out int consumedBytes)
             {
-                int bytesToRead = BitConverter.ToInt32(inBytes, startIndex);
-                consumedBytes = sizeof(int);
+                Serialization.BinaryDeserializer deserializer = new Serialization.BinaryDeserializer(inBytes, startIndex);
 
-                bytes = new byte[bytesToRead];
-                for(int i = 0; i < bytesToRead; i++)
-                {
-                    bytes[i] = inBytes[startIndex + consumedBytes + i];
-                }
-                consumedBytes += bytesToRead;
+                int bytesToRead = deserializer.DeserializeInt();
+                bytes = deserializer.DeserializeBytes(bytesToRead);
 
-                nodeType = (EditorDialogNode.NodeType) inBytes[startIndex + consumedBytes];
-                consumedBytes += sizeof(byte);
+                nodeType = (EditorDialogNode.NodeType)deserializer.DeserializeByte();
 
-                nodePosition.x = BitConverter.ToSingle(inBytes, startIndex + consumedBytes);
-                consumedBytes += sizeof(float);
-                nodePosition.y = BitConverter.ToSingle(inBytes, startIndex + consumedBytes);
-                consumedBytes += sizeof(float);
+                nodePosition.x = deserializer.DeserializeFloat();
+                nodePosition.y = deserializer.DeserializeFloat();
+
+                consumedBytes = deserializer.GetConsumedBytes();
             }
         }
     }
