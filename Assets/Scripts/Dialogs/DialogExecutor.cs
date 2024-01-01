@@ -9,34 +9,26 @@ namespace Dialogs
 {
     public class DialogExecutor : MonoBehaviour
     {
+        public static DialogExecutor Instance { get; private set; }
+
         private DialogSession _currentDialogSession;
 
-        private DialogNode CreateTestDialogGraph()
+        public void StartDialog(DialogNode dialogStart)
         {
-            DialogNode threadStart = new PlayerResponseNode("Dzień dobry, Pani!");
-
-            DialogNode npcResponse = new NpcResponseNode("Dzień dobry, Panu! Czy to nie jest piękny dzień na palenie niewiernych?");
-            threadStart.AppendToNextNodes(npcResponse);
-
-            KeyboardSelectionNode playerSelectionNode = new KeyboardSelectionNode();
-            npcResponse.AppendToNextNodes(playerSelectionNode);
-
-            DialogNode playerResponse1 = new PlayerResponseNode("Nikt się nie spodziewa hiszpańskiej inkwizycji!");
-            playerSelectionNode.AppendToNextNodes(playerResponse1);
-
-            DialogNode playerResponse2 = new PlayerResponseNode(new PlayerChoiceData
-            { 
-                choiceText = "Nie [Rozpocznij walkę na kciuki]",
-                textInDialog = "Nie." 
-            });
-            playerSelectionNode.AppendToNextNodes(playerResponse2);
-
-            return threadStart;
+            _currentDialogSession = new DialogSession(dialogStart);
         }
 
         private void Awake()
         {
-            _currentDialogSession = new DialogSession(CreateTestDialogGraph());
+            Instance = this;
+        }
+
+        private void OnDestroy()
+        {
+            if(Instance == this)
+            {
+                Instance = null;
+            }
         }
 
         private void Update()

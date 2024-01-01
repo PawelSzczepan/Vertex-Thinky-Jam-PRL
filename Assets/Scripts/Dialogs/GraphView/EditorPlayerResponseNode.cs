@@ -18,7 +18,7 @@ namespace Dialogs
 
         public override DialogNode ToRuntimeNode()
         {
-            return new NpcResponseNode(DialogText);
+            return new PlayerResponseNode(DialogText);
         }
 
         protected override bool HasInputPort() => true;

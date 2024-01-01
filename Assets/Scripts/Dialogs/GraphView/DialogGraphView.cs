@@ -95,6 +95,19 @@ namespace Dialogs
             SetupNewNode(node, position);
         }
 
+        public DialogNode GetRuntimeGraph()
+        {
+            IEnumerable<ThreadStartNode> startNodes = nodes.OfType<ThreadStartNode>();
+            ThreadStartNode startNode = startNodes.First();
+            if(startNode == null)
+            {
+                Debug.LogError("Dialog graph has no Thread Start");
+                return null;
+            }
+
+            return startNode.ToRuntimeNode();
+        }
+
         public byte[] Serialize()
         {
             Serializer serializer = new Serializer();

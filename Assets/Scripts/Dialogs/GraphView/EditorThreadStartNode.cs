@@ -19,10 +19,7 @@ namespace Dialogs
 
         public override DialogNode ToRuntimeNode()
         {
-            return new PlayerResponseNode(new PlayerChoiceData
-            {
-                choiceText = DialogText
-            });
+            return new PlayerResponseNode(DialogText);
         }
 
 
