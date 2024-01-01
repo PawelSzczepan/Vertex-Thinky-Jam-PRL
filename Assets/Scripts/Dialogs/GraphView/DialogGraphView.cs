@@ -70,9 +70,6 @@ namespace Dialogs
                 if (node == startNode)
                     continue;
 
-                if (node.DialogNodeType == startNode.DialogNodeType)
-                    continue;
-
                 if (port.direction == startPort.direction)
                     continue;
 
@@ -105,7 +102,25 @@ namespace Dialogs
                 return null;
             }
 
-            return startNode.ToRuntimeNode();
+            DialogNode startRuntimeNode = startNode.ToRuntimeNode();
+
+            Stack<(EditorDialogNode, DialogNode)> nodesToAppendTo = new Stack<(EditorDialogNode, DialogNode)>();
+            nodesToAppendTo.Push((startNode, startRuntimeNode));
+
+            // TODO: make this cycle-safe
+            while (nodesToAppendTo.Any())
+            {
+                (EditorDialogNode editorNode, DialogNode runtimeNode) = nodesToAppendTo.Pop();
+
+                foreach(EditorDialogNode nextNode in editorNode.GetNextNodes())
+                {
+                    DialogNode nextRuntimeNode = nextNode.ToRuntimeNode();
+                    nodesToAppendTo.Push((nextNode, nextRuntimeNode));
+                    runtimeNode.AppendToNextNodes(nextRuntimeNode);
+                }
+            }
+
+            return startRuntimeNode;
         }
 
         public byte[] Serialize()

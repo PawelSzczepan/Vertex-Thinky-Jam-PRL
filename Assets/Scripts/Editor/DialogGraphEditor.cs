@@ -111,6 +111,7 @@ namespace Dialogs
             if(filePath.Length != 0)
             {
                 File.WriteAllBytes(filePath, serializedGraph);
+                AssetDatabase.Refresh();
             }
         }
     }

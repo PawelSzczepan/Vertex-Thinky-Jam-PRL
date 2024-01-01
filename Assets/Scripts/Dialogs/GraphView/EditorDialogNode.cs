@@ -36,6 +36,12 @@ namespace Dialogs
             RefreshPorts();
         }
 
+        public IEnumerable<EditorDialogNode> GetNextNodes()
+        {
+            return outputContainer.Children().OfType<Port>().First()
+                .connections.Select(e => (EditorDialogNode)e.input.node);
+        }
+
         public abstract DialogNode ToRuntimeNode();
         public abstract string GetNodeTitle();
 
