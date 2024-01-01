@@ -124,22 +124,29 @@ namespace Dialogs
             int edgesSerializedSize = splittingDeserializer.DeserializeInt();
             byte[] edgesSerialized = splittingDeserializer.DeserializeBytes(edgesSerializedSize);
 
-            Serializer deserializer = new Serializer();
-            List<SerializedNodeData> deserializedNodes = deserializer.DeserializeNodes(nodesSerialized);
+            DeserializeNodes(nodesSerialized);
+            DeserializeEdges(edgesSerialized);
+        }
+
+        private void DeserializeNodes(byte[] nodesSerialized)
+        {
+            List<SerializedNodeData> deserializedNodes = Serializer.DeserializeNodes(nodesSerialized);
 
             // Instantiate nodes
-            foreach(SerializedNodeData nodeData in deserializedNodes)
+            foreach (SerializedNodeData nodeData in deserializedNodes)
             {
                 EditorDialogNode node = InstantiateNodeFromType(nodeData.nodeType);
                 node.Deserialize(nodeData.bytes);
                 SetupNewNode(node, nodeData.nodePosition);
             }
+        }
 
-            // Edges
-            List<(int, int)> deserializedEdges = deserializer.DeserializeEdges(edgesSerialized);
+        private void DeserializeEdges(byte[] edgesSerialized)
+        {
+            List<(int, int)> deserializedEdges = Serializer.DeserializeEdges(edgesSerialized);
 
             Node[] nodesArr = nodes.ToArray();
-            foreach((int v1, int v2) in deserializedEdges)
+            foreach ((int v1, int v2) in deserializedEdges)
             {
                 Node inputNode = nodesArr[v1];
                 Node outputNode = nodesArr[v2];
@@ -244,7 +251,7 @@ namespace Dialogs
                 return mergingSerializer.GetSerialization();
             }
 
-            public List<SerializedNodeData> DeserializeNodes(byte[] bytes)
+            public static List<SerializedNodeData> DeserializeNodes(byte[] bytes)
             {
                 List<SerializedNodeData> deserializedNodes = new List<SerializedNodeData>();
 
@@ -276,7 +283,7 @@ namespace Dialogs
                 return serializer.GetSerialization();
             }
 
-            public List<(int,int)> DeserializeEdges(byte[] bytes)
+            public static List<(int,int)> DeserializeEdges(byte[] bytes)
             {
                 List<(int, int)> edges = new List<(int, int)>();
 
