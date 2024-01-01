@@ -10,6 +10,7 @@ namespace Dialogs
 {
     public class DialogGraphEditor : EditorWindow
     {
+        static string dialogFileExtension = "dlg.bytes";
         static Color backgroundColor = new Color(0.1f, 0.1f, 0.15f);
 
         private DialogGraphView graphView;
@@ -93,7 +94,7 @@ namespace Dialogs
 
         private void ShowLoadGraphFile()
         {
-            string filePath = EditorUtility.OpenFilePanel(title: "Select dialog graph", directory: "Assets", extension: "dlg");
+            string filePath = EditorUtility.OpenFilePanel(title: "Select dialog graph", directory: "Assets", extension: dialogFileExtension);
             if(filePath.Length != 0)
             {
                 byte[] fileContent = File.ReadAllBytes(filePath);
@@ -105,7 +106,7 @@ namespace Dialogs
         {
             byte[] serializedGraph = graphView.Serialize();
 
-            string filePath = EditorUtility.SaveFilePanel(title: "New dialog graph file", directory: "Assets", defaultName: "NewDialog", extension: "dlg");
+            string filePath = EditorUtility.SaveFilePanel(title: "New dialog graph file", directory: "Assets", defaultName: "NewDialog", extension: dialogFileExtension);
 
             if(filePath.Length != 0)
             {
