@@ -11,7 +11,7 @@ namespace Dialogs
     {
         private int _currentSelectedOptionIdx = 0;
 
-        public override ExecuteResult Execute(DialogRuntime runtime)
+        public override ExecuteResult Execute(IDialogRuntime runtime)
         {
             if(_playerOptions.Count == 0)
             {

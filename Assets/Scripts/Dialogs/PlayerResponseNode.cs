@@ -18,7 +18,7 @@ namespace Dialogs
         }
     }
 
-    public class PlayerResponseNode : NoChoiceDialogNode
+    public class PlayerResponseNode : ResponseNode
     {
         private PlayerChoiceData _data;
 
@@ -32,10 +32,9 @@ namespace Dialogs
             _data = new PlayerChoiceData(dialogText);
         }
 
-        public override ExecuteResult Execute(DialogRuntime runtime)
+        protected override void RequestDisplayingResponse(IDialogRuntime runtime)
         {
-            runtime.DisplayChosenDialogOption(_data.textInDialog);
-            return ExecuteResult.Finished;
+            runtime.DisplayPlayerResponse(_data.textInDialog);
         }
 
         public string ChoiceText => _data.choiceText;

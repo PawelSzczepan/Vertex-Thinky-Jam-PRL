@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Dialogs
 {
-    public class NpcResponseNode : NoChoiceDialogNode
+    public class NpcResponseNode : ResponseNode
     {
         private string _responseText;
 
@@ -15,10 +15,9 @@ namespace Dialogs
             _responseText = text;
         }
 
-        public override ExecuteResult Execute(DialogRuntime runtime)
+        protected override void RequestDisplayingResponse(IDialogRuntime runtime)
         {
             runtime.DisplayNpcResponse(_responseText);
-            return ExecuteResult.Finished;
         }
     }
 }
