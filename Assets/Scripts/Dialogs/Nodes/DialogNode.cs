@@ -5,15 +5,6 @@ using System;
 
 namespace Dialogs
 {
-    public interface IDialogRuntime
-    {
-        public event Action onWorkDone;
-
-        public void DisplayPlayerResponse(string dialogOption);
-
-        public void DisplayNpcResponse(string response);
-    }
-
     public abstract class DialogNode
     {
         public enum ExecuteResult

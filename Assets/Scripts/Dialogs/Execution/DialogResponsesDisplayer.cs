@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,45 +9,31 @@ using TMPro;
 
 namespace Dialogs
 {
-    public class DialogRuntime : MonoBehaviour, IDialogRuntime
+    public class DialogResponsesDisplayer : MonoBehaviour
     {
         [SerializeField] TMP_Text newestDialogText;
         [SerializeField] TMP_Text dialogHistory;
         [SerializeField] int historySize = 2;
 
-        public event Action onWorkDone;
-
         private Queue<string> historyTexts = new Queue<string>();
 
-        public void DisplayPlayerResponse(string response)
-        {
-            Debug.Log("[Player] " + response);
-            DisplayDialogText("[Player] " + response);
-        }
-
-        public void DisplayNpcResponse(string response)
-        {
-            Debug.Log("[NPC] " + response);
-            DisplayDialogText("[NPC] " + response);
-        }
-
-        private void DisplayDialogText(string text)
+        public void DisplayDialogText(string text, Action onWorkDone)
         {
             AddToHistory(newestDialogText.text);
             // TODO: powolne wypisywanie tekstu
             newestDialogText.text = text;
-            StartCoroutine(CooldownDialogText()); // Testowe spowolnienie wyświetlania następnego tekstu
+            StartCoroutine(CooldownDialogText(onWorkDone)); // Testowe spowolnienie wyświetlania następnego tekstu
         }
 
-        private IEnumerator CooldownDialogText()
+        private IEnumerator CooldownDialogText(Action onFinished)
         {
             yield return new WaitForSeconds(1f);
-            onWorkDone?.Invoke();
+            onFinished?.Invoke();
         }
 
         private void AddToHistory(string text)
         {
-            while(historyTexts.Count >= historySize)
+            while (historyTexts.Count >= historySize)
             {
                 historyTexts.Dequeue();
             }
@@ -61,7 +47,7 @@ namespace Dialogs
         {
             string resultText = "";
 
-            for(int i = 0; i < historyTexts.Count; i++)
+            for (int i = 0; i < historyTexts.Count; i++)
             {
                 string historyEntry = historyTexts.Dequeue();
                 resultText += historyEntry + '\n';

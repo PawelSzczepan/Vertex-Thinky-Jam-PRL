@@ -17,7 +17,7 @@ namespace Dialogs
 
         protected override void RequestDisplayingResponse(IDialogRuntime runtime)
         {
-            runtime.DisplayNpcResponse(_responseText);
+            runtime.DisplayNpcResponse(_responseText, OnRuntimeWorkDone);
         }
     }
 }

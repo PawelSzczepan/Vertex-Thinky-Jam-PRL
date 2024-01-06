@@ -18,7 +18,6 @@ namespace Dialogs
             {
                 case State.None:
                     _state = State.Executing;
-                    runtime.onWorkDone += OnRuntimeWorkDone;
                     RequestDisplayingResponse(runtime);
                     return ExecuteResult.InProgress;
 
@@ -27,7 +26,6 @@ namespace Dialogs
 
                 case State.Finished:
                     _state = State.None;
-                    runtime.onWorkDone -= OnRuntimeWorkDone;
                     return ExecuteResult.Finished;
             }
 
@@ -36,7 +34,7 @@ namespace Dialogs
 
         protected abstract void RequestDisplayingResponse(IDialogRuntime runtime);
 
-        private void OnRuntimeWorkDone()
+        protected void OnRuntimeWorkDone()
         {
             _state = State.Finished;
         }

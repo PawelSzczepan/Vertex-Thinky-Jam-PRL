@@ -19,7 +19,7 @@ namespace Dialogs
 
         public override DialogNode ToRuntimeNode()
         {
-            return new KeyboardSelectionNode();
+            return new PlayerSelectionNode();
         }
 
         public override byte[] Serialize()

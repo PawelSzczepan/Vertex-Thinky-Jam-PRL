@@ -34,7 +34,7 @@ namespace Dialogs
 
         protected override void RequestDisplayingResponse(IDialogRuntime runtime)
         {
-            runtime.DisplayPlayerResponse(_data.textInDialog);
+            runtime.DisplayPlayerResponse(_data.textInDialog, OnRuntimeWorkDone);
         }
 
         public string ChoiceText => _data.choiceText;
