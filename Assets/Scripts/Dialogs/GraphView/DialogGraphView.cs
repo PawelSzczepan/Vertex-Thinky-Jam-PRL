@@ -40,8 +40,8 @@ namespace Dialogs
             },
             new NodeCreationCommand
             {
-                nodeTitle = "Keyboard selection",
-                nodeConstructor = () => new EditorKeyboardSelectionNode()
+                nodeTitle = "Player selection",
+                nodeConstructor = () => new EditorPlayerSelectionNode()
             }
         };
 
@@ -231,8 +231,8 @@ namespace Dialogs
                 case EditorDialogNode.NodeType.NpcResponse:
                     return new EditorNpcResponseNode();
 
-                case EditorDialogNode.NodeType.KeyboardSelectionNode:
-                    return new EditorKeyboardSelectionNode();
+                case EditorDialogNode.NodeType.PlayerSelectionNode:
+                    return new EditorPlayerSelectionNode();
 
                 case EditorDialogNode.NodeType.ThreadStartNode:
                     return new ThreadStartNode();

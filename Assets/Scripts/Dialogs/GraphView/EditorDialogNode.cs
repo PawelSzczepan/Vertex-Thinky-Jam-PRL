@@ -13,7 +13,7 @@ namespace Dialogs
         {
             PlayerResponse,
             NpcResponse,
-            KeyboardSelectionNode,
+            PlayerSelectionNode,
             ThreadStartNode
         }
 
