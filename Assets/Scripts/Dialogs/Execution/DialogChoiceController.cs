@@ -48,9 +48,7 @@ namespace Dialogs
             for(int i = 1; i < _playerOptions.Length; i++)
             {
                 GameObject option = GameObject.Instantiate(unchosenOptionTemplate, guiContainer.transform);
-                RectTransform optionTransform = option.GetComponent<RectTransform>();
-                // Ustaw pozycję
-                optionTransform.anchoredPosition = new Vector2(optionTransform.anchoredPosition.x, i * optionDistances);
+                SetOptionPositionY(option, i * optionDistances);
 
                 _playerOptionsGui[i] = option;
                 option.SetActive(true);
@@ -69,13 +67,29 @@ namespace Dialogs
                 GameObject guiOption = _playerOptionsGui[i];
                 string textToInsert = _playerOptions[i];
 
-                UpdateOptionText(guiOption, textToInsert);
+                SetOptionText(guiOption, textToInsert);
             }
         }
 
-        private void UpdateOptionText(GameObject guiOption, string newText)
+        private void SetOptionText(GameObject guiOption, string newText)
         {
             guiOption.GetComponentInChildren<TMPro.TMP_Text>().text = newText;
+        }
+
+        private string GetOptionText(GameObject guiOption)
+        {
+            return guiOption.GetComponentInChildren<TMPro.TMP_Text>().text;
+        }
+
+        private void SetOptionPositionY(GameObject guiOption, float positionY)
+        {
+            RectTransform optionTransform = guiOption.GetComponent<RectTransform>();
+            optionTransform.anchoredPosition = new Vector2(optionTransform.anchoredPosition.x, positionY);
+        }
+
+        private float GetOptionPositionY(GameObject guiOption)
+        {
+            return guiOption.GetComponent<RectTransform>().anchoredPosition.y;
         }
 
         private void AdjustContainerHeight()
@@ -90,7 +104,25 @@ namespace Dialogs
                 return; // Up-to-date
 
             // Zamień pozycje i teksty ostatnio wybranej opcji z nowowybraną opcją
-            // Zamień pozycje w tabeli
+            // (żeby nie musieć podmieniać stylu)
+            int prevSelectedOptionIdx = _currentSelectedOptionInGui;
+            GameObject selectedOption = _playerOptionsGui[prevSelectedOptionIdx];
+            GameObject unselectedOption = _playerOptionsGui[_currentSelectedOptionIdx];
+
+            string selectedText = GetOptionText(selectedOption);
+            string unselectedText = GetOptionText(unselectedOption);
+            SetOptionText(selectedOption, unselectedText);
+            SetOptionText(unselectedOption, selectedText);
+
+            float selectedPos = GetOptionPositionY(selectedOption);
+            float unselectedPos = GetOptionPositionY(unselectedOption);
+            SetOptionPositionY(selectedOption, unselectedPos);
+            SetOptionPositionY(unselectedOption, selectedPos);
+
+            _playerOptionsGui[_currentSelectedOptionIdx] = selectedOption;
+            _playerOptionsGui[prevSelectedOptionIdx] = unselectedOption;
+
+            _currentSelectedOptionInGui = _currentSelectedOptionIdx;
         }
 
         private void DestroyGuiOptions()
@@ -120,7 +152,7 @@ namespace Dialogs
         {
             bool selectedOptionChanged = false;
 
-            if (Input.GetKeyDown(KeyCode.DownArrow))
+            if (Input.GetKeyDown(KeyCode.UpArrow))
             {
                 _currentSelectedOptionIdx++;
                 if (_currentSelectedOptionIdx > _playerOptions.Length - 1)
@@ -131,7 +163,7 @@ namespace Dialogs
                 selectedOptionChanged = true;
             }
 
-            if (Input.GetKeyDown(KeyCode.UpArrow))
+            if (Input.GetKeyDown(KeyCode.DownArrow))
             {
                 _currentSelectedOptionIdx--;
                 if (_currentSelectedOptionIdx < 0)
@@ -144,7 +176,7 @@ namespace Dialogs
 
             if (selectedOptionChanged)
             {
-                Debug.Log($"Selected option: {_playerOptions[_currentSelectedOptionIdx]}");
+                UpdateOptionsSelection();
             }
 
 
@@ -160,6 +192,7 @@ namespace Dialogs
 
             _playerOptions = null;
             guiContainer.SetActive(false);
+            DestroyGuiOptions();
         }
     }
 }
