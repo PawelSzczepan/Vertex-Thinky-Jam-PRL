@@ -595,6 +595,8 @@ MonoBehaviour:
   newestDialogText: {fileID: 1436498564}
   dialogHistory: {fileID: 1888304195}
   historySize: 3
+  timeBetweenLetters: 0.03
+  timeAfterFinish: 1
 --- !u!1 &915047306
 GameObject:
   m_ObjectHideFlags: 0
@@ -624,7 +626,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0158d4ffaed84f04aa0d6ee99908a221, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogFile: {fileID: 4900000, guid: 709c0c7044d867f4680ac0b9b99054f1, type: 3}
+  dialogFile: {fileID: 4900000, guid: 813fb945c5de1ea4580fda48b9a88c59, type: 3}
 --- !u!4 &915047308
 Transform:
   m_ObjectHideFlags: 0
