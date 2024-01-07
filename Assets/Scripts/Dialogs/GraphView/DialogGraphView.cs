@@ -86,10 +86,11 @@ namespace Dialogs
             SetupNewNode(node, position);
         }
 
-        public void CreateNode(NodeCreationCommand command, Vector2 position)
+        public void CreateNode(NodeCreationCommand command, Vector2 localPos)
         {
             EditorDialogNode node = command.nodeConstructor();
-            SetupNewNode(node, position);
+            Vector2 worldPos = LocalToWorld(localPos);
+            SetupNewNode(node, worldPos);
         }
 
         public DialogNode GetRuntimeGraph()
@@ -223,7 +224,7 @@ namespace Dialogs
             return ElementAt(0).worldTransform.inverse.MultiplyPoint(localPos);
         }
 
-        private Vector2 ExtractNodePositionFromDropdownMenuAction(DropdownMenuAction a) => LocalToWorld(a.eventInfo.localMousePosition);
+        private Vector2 ExtractNodePositionFromDropdownMenuAction(DropdownMenuAction a) => a.eventInfo.localMousePosition;
 
 
         private static EditorDialogNode InstantiateNodeFromType(EditorDialogNode.NodeType nodeType)

@@ -69,7 +69,7 @@ namespace Dialogs
 
         private void AppendAddingActions(ToolbarMenu addMenu)
         {
-            Vector2 newNodePos = new Vector2(0, 0);
+            Vector2 newNodePos = new Vector2(20, 40);
 
             foreach(DialogGraphView.NodeCreationCommand creationCommand in graphView.CreationCommands)
             {
