@@ -12,7 +12,7 @@ namespace Dialogs
         [SerializeField] GameObject guiContainer;
         [SerializeField] GameObject chosenOptionTemplate;
         [SerializeField] GameObject unchosenOptionTemplate;
-        [SerializeField] float optionDistances = 50f;
+        [SerializeField] float optionDistance = 50f;
 
         private int _currentSelectedOptionIdx = 0;
         private string[] _playerOptions = null;
@@ -41,23 +41,49 @@ namespace Dialogs
 
             // Stwórz jedną wybraną opcję
             GameObject chosenOption = GameObject.Instantiate(chosenOptionTemplate, guiContainer.transform);
-            _playerOptionsGui[0] = chosenOption;
-            chosenOption.SetActive(true);
+            SetupGuiOption(chosenOption, 0);
 
             // Stwórz (n - 1) niewybranych opcji
             for(int i = 1; i < _playerOptions.Length; i++)
             {
                 GameObject option = GameObject.Instantiate(unchosenOptionTemplate, guiContainer.transform);
-                SetOptionPositionY(option, i * optionDistances);
-
-                _playerOptionsGui[i] = option;
-                option.SetActive(true);
+                SetupGuiOption(option, i);
             }
 
             _currentSelectedOptionInGui = 0;
 
             UpdateOptionsText();
             UpdateOptionsSelection();
+        }
+
+        private void SetupGuiOption(GameObject option, int index)
+        {
+            SetOptionPositionY(option, index * optionDistance);
+            option.SetActive(true);
+
+            DialogOptionButton optionButton = option.GetComponent<DialogOptionButton>();
+            optionButton.onClick += OnOptionMouseClick;
+
+            _playerOptionsGui[index] = option;
+        }
+
+        private void OnOptionMouseClick(DialogOptionButton optionButton)
+        {
+            GameObject clickedGO = optionButton.gameObject;
+
+            // We could inject index into the DialogOptionButton to avoid iterating
+            // but this shouldn't be needed since there wouldn't be many dialog options at once
+            for(int i = 0; i < _playerOptionsGui.Length; i++)
+            {
+                GameObject option = _playerOptionsGui[i];
+                if(option == clickedGO)
+                {
+                    _currentSelectedOptionIdx = i;
+                    UpdateOptionsSelection();
+                    OnConfirm();
+                    break;
+                }
+            }
         }
 
         private void UpdateOptionsText()
@@ -95,7 +121,7 @@ namespace Dialogs
         private void AdjustContainerHeight()
         {
             RectTransform containerTransform = guiContainer.GetComponent<RectTransform>();
-            containerTransform.sizeDelta = new Vector2(containerTransform.sizeDelta.x, _playerOptions.Length * optionDistances);
+            containerTransform.sizeDelta = new Vector2(containerTransform.sizeDelta.x, _playerOptions.Length * optionDistance);
         }
 
         private void UpdateOptionsSelection()
@@ -138,6 +164,8 @@ namespace Dialogs
         private void Awake()
         {
             guiContainer.SetActive(false);
+            chosenOptionTemplate.SetActive(false);
+            unchosenOptionTemplate.SetActive(false);
         }
 
         private void Update()

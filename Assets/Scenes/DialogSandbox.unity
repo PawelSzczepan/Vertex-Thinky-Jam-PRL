@@ -838,13 +838,14 @@ GameObject:
   - component: {fileID: 1224857867}
   - component: {fileID: 1224857866}
   - component: {fileID: 1224857865}
+  - component: {fileID: 1224857868}
   m_Layer: 5
   m_Name: Unchosen Option
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1224857864
 RectTransform:
   m_ObjectHideFlags: 0
@@ -908,7 +909,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1224857866}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1224857868}
+        m_TargetAssemblyTypeName: DialogOptionButton, Assembly-CSharp
+        m_MethodName: OnClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1224857866
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -947,6 +960,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1224857863}
   m_CullTransparentMesh: 1
+--- !u!114 &1224857868
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1224857863}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b070bc2734167624ca25ce923f4ff5f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1365192565
 GameObject:
   m_ObjectHideFlags: 0
@@ -959,13 +984,14 @@ GameObject:
   - component: {fileID: 1365192569}
   - component: {fileID: 1365192568}
   - component: {fileID: 1365192567}
+  - component: {fileID: 1365192570}
   m_Layer: 5
   m_Name: Chosen Option
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1365192566
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1029,7 +1055,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1365192568}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1365192570}
+        m_TargetAssemblyTypeName: DialogOptionButton, Assembly-CSharp
+        m_MethodName: OnClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1365192568
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1068,6 +1106,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1365192565}
   m_CullTransparentMesh: 1
+--- !u!114 &1365192570
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1365192565}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b070bc2734167624ca25ce923f4ff5f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1393947352
 GameObject:
   m_ObjectHideFlags: 0
@@ -1368,7 +1418,7 @@ MonoBehaviour:
   guiContainer: {fileID: 50178540}
   chosenOptionTemplate: {fileID: 1365192565}
   unchosenOptionTemplate: {fileID: 1224857863}
-  optionDistances: 50
+  optionDistance: 50
 --- !u!224 &1527511534
 RectTransform:
   m_ObjectHideFlags: 0
