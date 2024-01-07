@@ -52,8 +52,14 @@ namespace Dialogs
 
             _currentSelectedOptionInGui = 0;
 
-            UpdateOptionsText();
-            UpdateOptionsSelection();
+            UpdateGuiOptionsText();
+            UpdateGuiOptionsSelection();
+        }
+
+        private void SetSelectedOption(int optionIdx)
+        {
+            _currentSelectedOptionIdx = optionIdx;
+            UpdateGuiOptionsSelection();
         }
 
         private void SetupGuiOption(GameObject option, int index)
@@ -87,21 +93,17 @@ namespace Dialogs
         private void OnOptionMouseHover(DialogOptionButton optionButton)
         {
             int hoveredOptionIdx = FindOptionIndex(optionButton);
-
-            _currentSelectedOptionIdx = hoveredOptionIdx;
-            UpdateOptionsSelection();
+            SetSelectedOption(hoveredOptionIdx);
         }
 
         private void OnOptionMouseClick(DialogOptionButton optionButton)
         {
             int clickedOptionIdx = FindOptionIndex(optionButton);
-
-            _currentSelectedOptionIdx = clickedOptionIdx;
-            UpdateOptionsSelection();
+            SetSelectedOption(clickedOptionIdx);
             OnConfirm();
         }
 
-        private void UpdateOptionsText()
+        private void UpdateGuiOptionsText()
         {
             for(int i = 0; i < _playerOptions.Length; i++)
             {
@@ -139,7 +141,7 @@ namespace Dialogs
             containerTransform.sizeDelta = new Vector2(containerTransform.sizeDelta.x, _playerOptions.Length * optionDistance);
         }
 
-        private void UpdateOptionsSelection()
+        private void UpdateGuiOptionsSelection()
         {
             if (_currentSelectedOptionInGui == _currentSelectedOptionIdx)
                 return; // Up-to-date
@@ -219,7 +221,7 @@ namespace Dialogs
 
             if (selectedOptionChanged)
             {
-                UpdateOptionsSelection();
+                UpdateGuiOptionsSelection();
             }
 
 
