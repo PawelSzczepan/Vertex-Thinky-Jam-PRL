@@ -63,27 +63,42 @@ namespace Dialogs
 
             DialogOptionButton optionButton = option.GetComponent<DialogOptionButton>();
             optionButton.onClick += OnOptionMouseClick;
+            optionButton.onHover += OnOptionMouseHover;
 
             _playerOptionsGui[index] = option;
         }
 
-        private void OnOptionMouseClick(DialogOptionButton optionButton)
+        private int FindOptionIndex(DialogOptionButton optionButton)
         {
             GameObject clickedGO = optionButton.gameObject;
 
-            // We could inject index into the DialogOptionButton to avoid iterating
-            // but this shouldn't be needed since there wouldn't be many dialog options at once
-            for(int i = 0; i < _playerOptionsGui.Length; i++)
+            for (int i = 0; i < _playerOptionsGui.Length; i++)
             {
                 GameObject option = _playerOptionsGui[i];
-                if(option == clickedGO)
+                if (option == clickedGO)
                 {
-                    _currentSelectedOptionIdx = i;
-                    UpdateOptionsSelection();
-                    OnConfirm();
-                    break;
+                    return i;
                 }
             }
+
+            return -1;
+        }
+
+        private void OnOptionMouseHover(DialogOptionButton optionButton)
+        {
+            int hoveredOptionIdx = FindOptionIndex(optionButton);
+
+            _currentSelectedOptionIdx = hoveredOptionIdx;
+            UpdateOptionsSelection();
+        }
+
+        private void OnOptionMouseClick(DialogOptionButton optionButton)
+        {
+            int clickedOptionIdx = FindOptionIndex(optionButton);
+
+            _currentSelectedOptionIdx = clickedOptionIdx;
+            UpdateOptionsSelection();
+            OnConfirm();
         }
 
         private void UpdateOptionsText()
