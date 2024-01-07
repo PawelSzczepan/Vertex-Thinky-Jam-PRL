@@ -218,7 +218,12 @@ namespace Dialogs
             }
         }
 
-        private Vector2 ExtractNodePositionFromDropdownMenuAction(DropdownMenuAction a) => a.eventInfo.localMousePosition;
+        private Vector2 LocalToWorld(Vector2 localPos)
+        {
+            return ElementAt(0).worldTransform.inverse.MultiplyPoint(localPos);
+        }
+
+        private Vector2 ExtractNodePositionFromDropdownMenuAction(DropdownMenuAction a) => LocalToWorld(a.eventInfo.localMousePosition);
 
 
         private static EditorDialogNode InstantiateNodeFromType(EditorDialogNode.NodeType nodeType)
