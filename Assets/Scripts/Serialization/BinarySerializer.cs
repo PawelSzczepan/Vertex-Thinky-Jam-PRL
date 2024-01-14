@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 
 namespace Serialization
 {
@@ -43,6 +44,27 @@ namespace Serialization
         {
             byte[] valueAsBytes = BitConverter.GetBytes(value);
             SerializeBytes(valueAsBytes);
+        }
+
+        public void SerializeMatrix4x4(Matrix4x4 matrix)
+        {
+            for(int row = 0; row < 4; row++)
+            {
+                for(int col = 0; col < 4; col++)
+                {
+                    byte[] valueAsBytes = BitConverter.GetBytes(matrix[row, col]);
+                    SerializeBytes(valueAsBytes);
+                }
+            }
+        }
+
+        public void SerializeVector3(Vector3 vector)
+        {
+            for(int i = 0; i < 3; i++)
+            {
+                byte[] valueAsBytes = BitConverter.GetBytes(vector[i]);
+                SerializeBytes(valueAsBytes);
+            }
         }
     }
 
@@ -96,6 +118,35 @@ namespace Serialization
             OnBytesConsumed(sizeof(float));
 
             return value;
+        }
+
+        public Matrix4x4 DeserializeMatrix4x4()
+        {
+            Matrix4x4 matrix = new Matrix4x4();
+
+            for (int row = 0; row < 4; row++)
+            {
+                for (int col = 0; col < 4; col++)
+                {
+                    float value = DeserializeFloat();
+                    matrix[row, col] = value;
+                }
+            }
+
+            return matrix;
+        }
+
+        public Vector3 DeserializeVector3()
+        {
+            Vector3 vector = new Vector3();
+
+            for(int i = 0; i < 3; i++)
+            {
+                float value = DeserializeFloat();
+                vector[i] = value;
+            }
+
+            return vector;
         }
 
         private void OnBytesConsumed(int consumedBytesCount)

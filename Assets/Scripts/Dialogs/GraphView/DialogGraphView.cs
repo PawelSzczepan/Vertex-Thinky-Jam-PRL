@@ -131,12 +131,17 @@ namespace Dialogs
 
             byte[] edgesSerialized = serializer.SerializeEdges(edges);
 
-            int requiredBytes = sizeof(int) + nodesSerialized.Length + sizeof(int) + edgesSerialized.Length;
+            Vector3 viewPosition = ViewContainer.transform.position;
+            Vector3 viewScale = ViewContainer.transform.scale;
+
+            int requiredBytes = sizeof(int) + nodesSerialized.Length + sizeof(int) + edgesSerialized.Length + 2 * 3 * sizeof(float);
             Serialization.BinarySerializer mergingSerializer = new Serialization.BinarySerializer(requiredBytes);
             mergingSerializer.SerializeInt(nodesSerialized.Length);
             mergingSerializer.SerializeBytes(nodesSerialized);
             mergingSerializer.SerializeInt(edgesSerialized.Length);
             mergingSerializer.SerializeBytes(edgesSerialized);
+            mergingSerializer.SerializeVector3(viewPosition);
+            mergingSerializer.SerializeVector3(viewScale);
 
             return mergingSerializer.GetSerialization();
         }
@@ -155,6 +160,12 @@ namespace Dialogs
 
             DeserializeNodes(nodesSerialized);
             DeserializeEdges(edgesSerialized);
+
+            Vector3 viewPosition = splittingDeserializer.DeserializeVector3();
+            Vector3 viewScale = splittingDeserializer.DeserializeVector3();
+
+            ViewContainer.transform.position = viewPosition;
+            ViewContainer.transform.scale = viewScale;
         }
 
         private void DeserializeNodes(byte[] nodesSerialized)
@@ -219,9 +230,11 @@ namespace Dialogs
             }
         }
 
+        private VisualElement ViewContainer => ElementAt(0);
+
         private Vector2 LocalToWorld(Vector2 localPos)
         {
-            return ElementAt(0).worldTransform.inverse.MultiplyPoint(localPos);
+            return ViewContainer.worldTransform.inverse.MultiplyPoint(localPos);
         }
 
         private Vector2 ExtractNodePositionFromDropdownMenuAction(DropdownMenuAction a) => a.eventInfo.localMousePosition;
