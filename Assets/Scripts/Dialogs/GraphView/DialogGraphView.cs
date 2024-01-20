@@ -80,7 +80,7 @@ namespace Dialogs
         }
 
         public void CreateNode<T>(Vector2 position) 
-            where T : EditorDialogNode, new() // Tylko nieabstrakcyjne EditorDialogNode'y
+            where T : EditorDialogNode, new()
         {
             T node = new T();
             SetupNewNode(node, position);

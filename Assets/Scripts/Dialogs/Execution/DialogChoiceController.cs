@@ -21,14 +21,14 @@ namespace Dialogs
         private int _currentSelectedOptionInGui = 0;
         private GameObject[] _playerOptionsGui = null;
 
-        public void DisplayPlayerOptions(string[] options, Action<int> onOptionChosen)
+        public void DisplayPlayerOptions(string[] options, Action<int> onOptionChosen, out float height)
         {
             _currentSelectedOptionIdx = 0;
             _playerOptions = options;
             _onOptionChosen = onOptionChosen;
 
             guiContainer.SetActive(true);
-            AdjustContainerHeight();
+            height = AdjustContainerHeight();
             CreateGuiOptions();
         }
 
@@ -135,10 +135,14 @@ namespace Dialogs
             return guiOption.GetComponent<RectTransform>().anchoredPosition.y;
         }
 
-        private void AdjustContainerHeight()
+        private float AdjustContainerHeight()
         {
+            float height = _playerOptions.Length * optionDistance;
+
             RectTransform containerTransform = guiContainer.GetComponent<RectTransform>();
-            containerTransform.sizeDelta = new Vector2(containerTransform.sizeDelta.x, _playerOptions.Length * optionDistance);
+            containerTransform.sizeDelta = new Vector2(containerTransform.sizeDelta.x, height);
+
+            return height;
         }
 
         private void UpdateGuiOptionsSelection()
