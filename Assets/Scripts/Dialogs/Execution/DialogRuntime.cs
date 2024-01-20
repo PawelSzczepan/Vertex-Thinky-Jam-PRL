@@ -12,7 +12,7 @@ namespace Dialogs
     {
         [SerializeField] DialogResponsesDisplayer responsesDisplayer;
         [SerializeField] DialogChoiceController choiceController;
-        [SerializeField] float slideSpeed = 10.0f;
+        [SerializeField] float slideTime = 1.0f;
 
         private bool _isDisplayingPlayerOptions = false;
         private float _optionsHeight = 0.0f;
@@ -53,10 +53,21 @@ namespace Dialogs
         private void OnPlayerOptionChosen()
         {
             _isDisplayingPlayerOptions = false;
-            _optionsHeight = 0.0f;
         }
 
         private void Update()
+        {
+            if(_isDisplayingPlayerOptions)
+            {
+                Update_SlideOptionsIn();
+            }
+            else
+            {
+                Update_Reset();
+            }
+        }
+
+        private void Update_SlideOptionsIn()
         {
             RectTransform choicesTransform = choiceController.GetComponent<RectTransform>();
             RectTransform responsesTransform = responsesDisplayer.GetComponent<RectTransform>();
@@ -65,10 +76,22 @@ namespace Dialogs
             if (responsesY >= _optionsHeight)
                 return; // Sliding finished
 
-            float dY = slideSpeed * Time.deltaTime;
+            float dY = _optionsHeight / slideTime * Time.deltaTime;
             SetY(choicesTransform, GetY(choicesTransform) + dY);
 
             SetY(responsesTransform, responsesY + dY);
+        }
+
+        private void Update_Reset()
+        {
+            RectTransform responsesTransform = responsesDisplayer.GetComponent<RectTransform>();
+
+            float responsesY = GetY(responsesTransform);
+            if (responsesY <= 0)
+                return; // Resetting finished
+
+            float dY = _optionsHeight / slideTime * Time.deltaTime;
+            SetY(responsesTransform, responsesY - dY);
         }
 
         private static void SetY(RectTransform rect, float y)

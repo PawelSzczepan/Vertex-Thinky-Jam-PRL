@@ -175,7 +175,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.4056604, g: 0.21201494, b: 0.21201494, a: 1}
+  m_Color: {r: 0.67058825, g: 0.67058825, b: 0.67058825, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -530,6 +530,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   responsesDisplayer: {fileID: 736244325}
   choiceController: {fileID: 1527511533}
+  slideTime: 0.8
 --- !u!114 &524492773
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -626,7 +627,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0158d4ffaed84f04aa0d6ee99908a221, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogFile: {fileID: 4900000, guid: 813fb945c5de1ea4580fda48b9a88c59, type: 3}
+  dialogFile: {fileID: 4900000, guid: 709c0c7044d867f4680ac0b9b99054f1, type: 3}
 --- !u!4 &915047308
 Transform:
   m_ObjectHideFlags: 0
