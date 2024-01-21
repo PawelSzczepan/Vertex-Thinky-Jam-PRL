@@ -12,6 +12,8 @@ namespace Dialogs
 {
     public class DialogGraphView : GraphView
     {
+        public event Action onChange;
+
         private static Vector2 firstNodePos = new Vector2(100, 200);
         private static Vector2 nodeSize = new Vector2(100, 150);
 
@@ -55,6 +57,8 @@ namespace Dialogs
             this.AddManipulator(new ContextualMenuManipulator(CreateContextMenu));
 
             CreateNode<ThreadStartNode>(firstNodePos);
+
+            graphViewChanged += OnGraphViewChanged;
         }
 
         public override List<Port> GetCompatiblePorts(Port startPort, NodeAdapter nodeAdapter)
@@ -168,6 +172,13 @@ namespace Dialogs
             ViewContainer.transform.scale = viewScale;
         }
 
+        private GraphViewChange OnGraphViewChanged(GraphViewChange change)
+        {
+            onChange?.Invoke();
+
+            return change;
+        }
+
         private void DeserializeNodes(byte[] nodesSerialized)
         {
             List<SerializedNodeData> deserializedNodes = Serializer.DeserializeNodes(nodesSerialized);
@@ -213,6 +224,8 @@ namespace Dialogs
             node.SetPosition(new Rect(position, nodeSize));
 
             AddElement(node);
+
+            onChange?.Invoke();
         }
 
 

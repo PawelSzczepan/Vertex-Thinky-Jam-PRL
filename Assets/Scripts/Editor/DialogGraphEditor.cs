@@ -17,7 +17,7 @@ namespace Dialogs
     
 
         [MenuItem("Dialogs/Dialog Graph Editor")]
-        public static void ShowExample()
+        public static void ShowGraphEditor()
         {
             DialogGraphEditor wnd = GetWindow<DialogGraphEditor>();
             wnd.titleContent = new GUIContent("Dialog Graph Editor");
@@ -32,11 +32,26 @@ namespace Dialogs
         {
             CreateGraphView();
             CreateToolbar();
+
+            hasUnsavedChanges = true;
         }
 
         private void OnDisable()
         {
             rootVisualElement.Remove(graphView);
+        }
+
+        public override void SaveChanges()
+        {
+            Debug.Log("Changes save");
+            ShowSaveGraphFile();
+            base.SaveChanges();
+        }
+
+        public override void DiscardChanges()
+        {
+            Debug.Log("Changes discard");
+            base.DiscardChanges();
         }
 
 
@@ -45,6 +60,10 @@ namespace Dialogs
             graphView = new DialogGraphView
             {
                 name = "Dialog Graph"
+            };
+            graphView.onChange += () =>
+            {
+                hasUnsavedChanges = true;
             };
 
             graphView.StretchToParentSize();
@@ -99,6 +118,8 @@ namespace Dialogs
             {
                 byte[] fileContent = File.ReadAllBytes(filePath);
                 graphView.Deserialize(fileContent);
+
+                hasUnsavedChanges = false;
             }
         }
 
@@ -112,6 +133,8 @@ namespace Dialogs
             {
                 File.WriteAllBytes(filePath, serializedGraph);
                 AssetDatabase.Refresh();
+
+                hasUnsavedChanges = false;
             }
         }
     }
