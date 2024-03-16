@@ -14,7 +14,8 @@ namespace Dialogs
             PlayerResponse,
             NpcResponse,
             PlayerSelectionNode,
-            ThreadStartNode
+            ThreadStartNode,
+            NotifyNode
         }
 
         private NodeType _nodeType;

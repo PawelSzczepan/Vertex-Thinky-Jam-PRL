@@ -44,6 +44,11 @@ namespace Dialogs
             {
                 nodeTitle = "Player selection",
                 nodeConstructor = () => new EditorPlayerSelectionNode()
+            },
+            new NodeCreationCommand
+            {
+                nodeTitle = "Notify",
+                nodeConstructor = () => new EditorNotifyNode()
             }
         };
 
@@ -268,6 +273,9 @@ namespace Dialogs
 
                 case EditorDialogNode.NodeType.ThreadStartNode:
                     return new ThreadStartNode();
+
+                case EditorNotifyNode.NodeType.NotifyNode:
+                    return new EditorNotifyNode();
             }
 
             throw new NotImplementedException();
