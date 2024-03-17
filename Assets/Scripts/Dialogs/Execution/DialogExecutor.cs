@@ -68,6 +68,7 @@ namespace Dialogs
                 if (_currentNode == null)
                 {
                     Instance.dialogPanel.SetActive(false);
+                    InvestigationEvents.InvokeDialogFinished();
                     return false; // Koniec dialogu
                 }
 

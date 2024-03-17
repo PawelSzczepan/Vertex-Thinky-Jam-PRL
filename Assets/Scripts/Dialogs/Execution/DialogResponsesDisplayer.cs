@@ -36,6 +36,12 @@ namespace Dialogs
             _textUpdater.RequestText(text);
         }
 
+        public void ClearHistory()
+        {
+            _historyTexts.Clear();
+            newestDialogText.text = "";
+        }
+
         private void OnTextFinished()
         {
             _isTextConstructionInProgress = false;
@@ -90,6 +96,16 @@ namespace Dialogs
 
             _textUpdater = new SlowTextConstructor(timeBetweenLetters);
             _textUpdater.onTextFinished += OnTextFinished;
+        }
+
+        private void OnEnable()
+        {
+            ClearHistory();
+        }
+
+        private void OnDisable()
+        {
+            ClearHistory();
         }
 
         private class SlowTextConstructor
