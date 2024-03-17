@@ -51,7 +51,7 @@ Material:
     - _Color: {r: 1, g: 1, b: 1, a: 0}
     - _Rotation: {r: 0.1, g: -0.2, b: 0.1, a: 0.1}
     - _Vector2: {r: 0.3, g: 0.75, b: 0, a: 0}
-    - _offsetC: {r: 0.01, g: 0.05, b: 0, a: 0}
+    - _offsetC: {r: 0.3, g: 0.05, b: 0, a: 0}
     - _offsetK: {r: 0.01, g: 0, b: 0, a: 0}
     - _offsetM: {r: 0.02, g: 0, b: 0, a: 0}
     - _offsetY: {r: -0.01, g: 0.01, b: 0, a: 0}

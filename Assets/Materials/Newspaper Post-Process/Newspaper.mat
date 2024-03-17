@@ -41,7 +41,7 @@ Material:
     - _Displacement: 0
     - _Displacement_Noise_Scale: 100
     - _EgdeSize: 0.75
-    - _Float: 0.35
+    - _Float: 0.5
     - _HalfTone_Size: 7.39
     - _Max_Circle_Size: 0.5
     - _Max_Displacement: 0.0035
