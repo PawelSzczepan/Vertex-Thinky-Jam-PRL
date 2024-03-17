@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class QueryItem : MonoBehaviour
 {
-    public new string name;
+    [SerializeField] private QueryItemSO queryItemSO;
 
     public void Inquire()
     {
-        InvestigationEvents.InvokeQueryItemSelected(this);
+        InvestigationEvents.InvokeQueryItemSelected(queryItemSO);
     }
 }

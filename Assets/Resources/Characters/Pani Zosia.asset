@@ -15,3 +15,4 @@ MonoBehaviour:
   nickname: Pani Zosia
   firstName: Zofia
   surname: XYZ
+  defaultDialog: {fileID: 11400000, guid: 2c0b8444e1215f9448176e6001dfb221, type: 2}

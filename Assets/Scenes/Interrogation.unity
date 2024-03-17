@@ -273,7 +273,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9afe6923e7252084483e4a07fb01d322, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  name: "N\xF3\u017C"
+  queryItemSO: {fileID: 11400000, guid: ed4d4d0fee883134b9553d4fbae5b0c4, type: 2}
 --- !u!1 &9118775
 GameObject:
   m_ObjectHideFlags: 0
@@ -1864,7 +1864,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 711632153}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.31622773, y: 0.6324556, z: -0.3162278, w: 0.6324555}
+  m_LocalRotation: {x: 0.31622776, y: 0.6324555, z: -0.31622773, w: 0.6324556}
   m_LocalPosition: {x: 4.08, y: 2.5, z: 0.77}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2272,7 +2272,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1142516115
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2301,6 +2301,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dialogRuntime: {fileID: 1142516115}
+  dialogPanel: {fileID: 22614234}
 --- !u!114 &1142516117
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3657,6 +3658,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1953022996}
   - component: {fileID: 1953022995}
+  - component: {fileID: 1953022997}
   m_Layer: 0
   m_Name: Dialog Provider
   m_TagString: Untagged
@@ -3676,7 +3678,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0158d4ffaed84f04aa0d6ee99908a221, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogFile: {fileID: 4900000, guid: 817e94ee62e9899409a07be91d4b2933, type: 3}
 --- !u!4 &1953022996
 Transform:
   m_ObjectHideFlags: 0
@@ -3692,6 +3693,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1953022997
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1953022994}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93b30cabc39040449adef3139101acb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogs:
+  - {fileID: 11400000, guid: 6984fddcc2d97ed46a6488206265be8c, type: 2}
 --- !u!1 &2052499987
 GameObject:
   m_ObjectHideFlags: 0
@@ -3704,7 +3719,6 @@ GameObject:
   - component: {fileID: 2052499991}
   - component: {fileID: 2052499990}
   - component: {fileID: 2052499989}
-  - component: {fileID: 2052499988}
   m_Layer: 0
   m_Name: Cylinder
   m_TagString: Untagged
@@ -3712,19 +3726,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &2052499988
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2052499987}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9afe6923e7252084483e4a07fb01d322, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  name: 
 --- !u!136 &2052499989
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -3929,11 +3930,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characters:
-  - {fileID: 11400000, guid: 4918127edabf0ae47a8e0013003e26ca, type: 2}
-  - {fileID: 11400000, guid: e4aaa5cd54d4cbe4ba808105250f3e5f, type: 2}
-  - {fileID: 11400000, guid: a9e4c5927ddea7f4ea7fed2f62eaf6d6, type: 2}
-  - {fileID: 11400000, guid: 96c05a484400b104cbcb75498aa09adb, type: 2}
-  - {fileID: 11400000, guid: 0f76e580ebbf696439a059b865d5dc9a, type: 2}
+  - {fileID: 11400000, guid: 4835e307d07d2674e9d6646b441c02fa, type: 2}
   characterTilePrefab: {fileID: 5420923118557538478, guid: c8f35ea27711f3448a34d618a94c73f7,
     type: 3}
   radius: 100
@@ -4004,7 +4001,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2067711030}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.38268343, y: -0.00000001589663, z: 0.0000000065845986, w: 0.92387956}
+  m_LocalRotation: {x: 0.38268343, y: 0.000000015896617, z: -0.000000006584594, w: 0.92387956}
   m_LocalPosition: {x: -1.48, y: 1.25, z: 2.98}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -4160,7 +4157,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9afe6923e7252084483e4a07fb01d322, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  name: Herbata
+  queryItemSO: {fileID: 11400000, guid: a0e93b209f8c2c84d812e2b911bb3fc9, type: 2}
 --- !u!1 &2095031646
 GameObject:
   m_ObjectHideFlags: 0

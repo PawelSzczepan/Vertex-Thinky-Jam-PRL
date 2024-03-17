@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4d099ea56473ecc47856732922d904bb, type: 3}
-  m_Name: Stefan
+  m_Name: "W\u0142adys\u0142aw"
   m_EditorClassIdentifier: 
-  nickname: Stefan
-  firstName: Stefan
-  surname: "\u017Beromski"
+  nickname: "Pan W\u0142adys\u0142aw"
+  firstName: "W\u0142adys\u0142aw"
+  surname: "Gora\u0142ka"
   defaultDialog: {fileID: 11400000, guid: 2c0b8444e1215f9448176e6001dfb221, type: 2}

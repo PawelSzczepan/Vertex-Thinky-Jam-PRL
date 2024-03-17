@@ -60,7 +60,7 @@ public class CharacterPanel : MonoBehaviour
         title.text = val;
     }
 
-    private void OnQueryItemSelected(QueryItem queryItem)
+    private void OnQueryItemSelected(QueryItemSO queryItem)
     {
         Show(characters);
         SetTitle(queryItem.name);
