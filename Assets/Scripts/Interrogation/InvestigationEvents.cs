@@ -16,4 +16,10 @@ public static class InvestigationEvents
     {
         CharacterChosen?.Invoke(character);
     }
+
+    public static event Action Unfocused;
+    public static void InvokeUnfocused()
+    {
+        Unfocused?.Invoke();
+    }
 }

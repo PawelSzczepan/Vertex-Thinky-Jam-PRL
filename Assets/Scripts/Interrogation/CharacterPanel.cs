@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class CharacterPanel : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class CharacterPanel : MonoBehaviour
     [SerializeField] private float radius;
     [SerializeField] private GameObject hideRoot;
     [SerializeField] private GameObject characterTilesParent;
+    [SerializeField] private TMP_Text title;
 
     private List<GameObject> characterTiles;
     private RectTransform rectTransform;
@@ -53,9 +55,15 @@ public class CharacterPanel : MonoBehaviour
         }
     }
 
+    private void SetTitle(string val)
+    {
+        title.text = val;
+    }
+
     private void OnQueryItemSelected(QueryItem queryItem)
     {
         Show(characters);
+        SetTitle(queryItem.name);
     }
 
     private void OnCharacterChosen(Character character)
@@ -73,11 +81,13 @@ public class CharacterPanel : MonoBehaviour
     {
         InvestigationEvents.QueryItemSelected += OnQueryItemSelected;    
         InvestigationEvents.CharacterChosen += OnCharacterChosen;
+        InvestigationEvents.Unfocused += Hide;
     }
 
     private void OnDisable()
     {
         InvestigationEvents.QueryItemSelected -= OnQueryItemSelected;
         InvestigationEvents.CharacterChosen -= OnCharacterChosen;
+        InvestigationEvents.Unfocused -= Hide;
     }
 }

@@ -4,17 +4,10 @@ using UnityEngine;
 
 public class QueryItem : MonoBehaviour
 {
+    public new string name;
 
     public void Inquire()
     {
         InvestigationEvents.InvokeQueryItemSelected(this);
-    }
-
-    private void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.Space))
-        {
-            Inquire();
-        }
     }
 }
