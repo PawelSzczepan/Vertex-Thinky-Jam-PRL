@@ -28,7 +28,7 @@ namespace Dialogs
             AddToHistory(newestDialogText.text);
 
             // Display the actor label now, add the rest progressively
-            _newestActorLabel = $"[{actorLabel}] ";
+            _newestActorLabel = $"{actorLabel}: ";
             newestDialogText.text = _newestActorLabel;
             _isTextConstructionInProgress = true;
             _onWorkDone = onWorkDone;
