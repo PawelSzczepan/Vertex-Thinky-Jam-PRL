@@ -15,4 +15,4 @@ MonoBehaviour:
   nickname: Zygmunt
   firstName: Zygmunt
   surname: August
-  defaultDialog: {fileID: 11400000, guid: 2c0b8444e1215f9448176e6001dfb221, type: 2}
+  portrait: {fileID: 21300000, guid: f83404ea5cd90b5428011dbd5b6b5a2d, type: 3}

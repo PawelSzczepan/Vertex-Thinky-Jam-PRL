@@ -317,6 +317,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterName: {fileID: 2318316990864586124}
   character: {fileID: 0}
+  portrait: {fileID: 8587498975984156636}
 --- !u!1 &5626823405296322756
 GameObject:
   m_ObjectHideFlags: 0
