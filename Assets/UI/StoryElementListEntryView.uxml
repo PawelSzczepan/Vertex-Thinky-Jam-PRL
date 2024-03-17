@@ -1,0 +1,6 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:VisualElement style="flex-grow: 1; flex-direction: row;">
+        <ui:VisualElement name="Image" style="flex-grow: 1; align-self: auto; justify-content: flex-start; background-image: url(&apos;project://database/Assets/UnityDefaultRuntimeTheme.tss?fileID=-1087164816274819069&amp;guid=f05bc6999c26f48478204960e061ba97&amp;type=3#arrow-right@2x&apos;);" />
+        <ui:Label tabindex="-1" text="Story Element" parse-escape-sequences="true" display-tooltip-when-elided="true" style="min-width: 80%; -unity-text-align: middle-center; text-overflow: ellipsis;" />
+    </ui:VisualElement>
+</ui:UXML>

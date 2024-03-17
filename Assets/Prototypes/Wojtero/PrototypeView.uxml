@@ -1,0 +1,4 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:Template name="StoryElementListView" src="project://database/Assets/UI/StoryElementListView.uxml?fileID=9197481963319205126&amp;guid=8744b0abb67ca214693ea37ccf52fac7&amp;type=3#StoryElementListView" />
+    <ui:Instance template="StoryElementListView" name="StoryElementListView" style="width: 20%;" />
+</ui:UXML>
