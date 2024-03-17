@@ -4,17 +4,10 @@ using UnityEngine;
 
 public class QueryItem : MonoBehaviour
 {
+    [SerializeField] private QueryItemSO queryItemSO;
 
     public void Inquire()
     {
-        InvestigationEvents.InvokeQueryItemSelected(this);
-    }
-
-    private void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.Space))
-        {
-            Inquire();
-        }
+        InvestigationEvents.InvokeQueryItemSelected(queryItemSO);
     }
 }

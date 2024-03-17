@@ -9,10 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4d099ea56473ecc47856732922d904bb, type: 3}
-  m_Name: Stefan
+  m_Script: {fileID: 11500000, guid: 152bfc533edc2304890bbfcddf4caf3e, type: 3}
+  m_Name: "N\xF3\u017C"
   m_EditorClassIdentifier: 
-  nickname: Stefan
-  firstName: Stefan
-  surname: "\u017Beromski"
-  defaultDialog: {fileID: 11400000, guid: 2c0b8444e1215f9448176e6001dfb221, type: 2}
+  name: "N\xF3\u017C"

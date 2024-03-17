@@ -6,19 +6,25 @@ namespace Dialogs
 {
     public class DialogProvider : MonoBehaviour
     {
-        [SerializeField] TextAsset dialogFile;
-        DialogNode _dialog;
+        private DialogNode _dialog;
 
-        private void Awake()
+        private void RunDialog(Dialog dialog)
         {
             DialogGraphView dialogGraphView = new DialogGraphView();
-            dialogGraphView.Deserialize(dialogFile.bytes);
+            dialogGraphView.Deserialize(dialog.dialogFile.bytes);
             _dialog = dialogGraphView.GetRuntimeGraph();
+            DialogExecutor.Instance.StartDialog(_dialog);
         }
 
-        //private void Start()
-        //{
-        //    DialogExecutor.Instance.StartDialog(_dialog);
-        //}
+
+        private void OnEnable()
+        {
+            InvestigationEvents.RunDialog += RunDialog;
+        }
+
+        private void OnDisable()
+        {
+            InvestigationEvents.RunDialog -= RunDialog;
+        }
     }
 }

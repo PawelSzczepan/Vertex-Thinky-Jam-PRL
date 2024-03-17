@@ -88,7 +88,10 @@ public class CameraManager : MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S))
         {
             if (state == Position.obj)
+            {
+                InvestigationEvents.InvokeUnfocused();
                 Transition(prevCmName, prevState);
+            }
         }
 
         if (Input.GetKeyDown(KeyCode.Mouse0))

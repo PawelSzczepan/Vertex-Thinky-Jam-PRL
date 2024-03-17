@@ -12,6 +12,7 @@ namespace Dialogs
         public static DialogExecutor Instance { get; private set; }
 
         [SerializeField] DialogRuntime dialogRuntime;
+        [SerializeField] private GameObject dialogPanel;
 
         private DialogSession _currentDialogSession;
 
@@ -21,11 +22,13 @@ namespace Dialogs
                 Debug.LogWarning("No dialog runtime passed to Dialog Executor");
 
             _currentDialogSession = new DialogSession(dialogStart, dialogRuntime);
+            Instance.dialogPanel.SetActive(true);
         }
 
         private void Awake()
         {
             Instance = this;
+            Instance.dialogPanel.SetActive(false);
         }
 
         private void OnDestroy()
@@ -63,7 +66,10 @@ namespace Dialogs
             public bool Execute()
             {
                 if (_currentNode == null)
+                {
+                    Instance.dialogPanel.SetActive(false);
                     return false; // Koniec dialogu
+                }
 
                 DialogNode.ExecuteResult result = _currentNode.Execute(_runtime);
 

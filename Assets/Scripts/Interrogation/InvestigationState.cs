@@ -5,16 +5,23 @@ using UnityEngine;
 public class InvestigationState : MonoBehaviour
 {
     private Character selectedCharacter;
-    private QueryItem selectedQueryItem;
+    private QueryItemSO selectedQueryItem;
 
     private void OnCharacterSelected(Character character)
     {
         selectedCharacter = character;
+        AssemblyDialog(selectedCharacter, selectedQueryItem);
     }
 
-    private void OnQueryItemSelected(QueryItem item)
+    private void OnQueryItemSelected(QueryItemSO item)
     {
         selectedQueryItem = item;
+    }
+
+    private void AssemblyDialog(Character character, QueryItemSO item)
+    {
+        Dialog dialog = DialogSelector.Instance.GetDialog(character, item);
+        InvestigationEvents.InvokeRunDialog(dialog);
     }
 
     private void OnEnable()
