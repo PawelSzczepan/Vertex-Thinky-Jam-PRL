@@ -13,20 +13,21 @@ namespace Dialogs
         [SerializeField] DialogResponsesDisplayer responsesDisplayer;
         [SerializeField] DialogChoiceController choiceController;
         [SerializeField] float slideTime = 1.0f;
+        [SerializeField] string playerName = "Milicjant";
 
         private bool _isDisplayingPlayerOptions = false;
         private float _optionsHeight = 0.0f;
 
         public void DisplayPlayerResponse(string response, Action onWorkDone)
         {
-            Debug.Log("[Player] " + response);
-            responsesDisplayer.DisplayDialogText("Player", response, onWorkDone);
+            Debug.Log(playerName + response);
+            responsesDisplayer.DisplayDialogText(playerName, response, onWorkDone);
         }
 
         public void DisplayNpcResponse(string response, Action onWorkDone)
         {
-            Debug.Log("[NPC] " + response);
-            responsesDisplayer.DisplayDialogText("NPC", response, onWorkDone);
+            Debug.Log(InvestigationState.Instance.selectedCharacter.nickname + ":" + response);
+            responsesDisplayer.DisplayDialogText(InvestigationState.Instance.selectedCharacter.nickname, response, onWorkDone);
         }
 
         public void DisplayPlayerOptions(string[] options, Action<int> onOptionChosen)

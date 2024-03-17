@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class InvestigationState : MonoBehaviour
 {
-    private Character selectedCharacter;
-    private QueryItemSO selectedQueryItem;
+    public static InvestigationState Instance { get; private set; }
+
+    public Character selectedCharacter { get; private set; }
+    public QueryItemSO selectedQueryItem { get; private set; }
 
     private void OnCharacterSelected(Character character)
     {
@@ -34,5 +36,18 @@ public class InvestigationState : MonoBehaviour
     {
         InvestigationEvents.CharacterChosen -= OnCharacterSelected;
         InvestigationEvents.QueryItemSelected -= OnQueryItemSelected;
+    }
+
+    private void Awake()
+    {
+        Instance = this;
+    }
+
+    private void OnDestroy()
+    {
+        if (Instance == this)
+        {
+            Instance = null;
+        }
     }
 }
