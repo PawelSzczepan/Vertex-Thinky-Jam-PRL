@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Default
   m_EditorClassIdentifier: 
   queryItem: {fileID: 0}
-  character: {fileID: 11400000, guid: 4835e307d07d2674e9d6646b441c02fa, type: 2}
+  character: {fileID: 0}
   dialogFile: {fileID: 4900000, guid: ead021681153c3d4c84b668d10fff521, type: 3}
