@@ -19,8 +19,8 @@ public class CameraManager : MonoBehaviour
     }
 
     Position state = Position.front;
-    Position prevState;
-    string prevCmName;
+    Position prevState = Position.front;
+    string prevCmName = "Front";
 
     private void Awake()
     {
