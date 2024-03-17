@@ -3707,6 +3707,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogs:
   - {fileID: 11400000, guid: 6984fddcc2d97ed46a6488206265be8c, type: 2}
+  defaultDialog: {fileID: 11400000, guid: 2c0b8444e1215f9448176e6001dfb221, type: 2}
 --- !u!1 &2052499987
 GameObject:
   m_ObjectHideFlags: 0
