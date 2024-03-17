@@ -16,9 +16,9 @@ namespace Dialogs
             _dialog = dialogGraphView.GetRuntimeGraph();
         }
 
-        private void Start()
-        {
-            DialogExecutor.Instance.StartDialog(_dialog);
-        }
+        //private void Start()
+        //{
+        //    DialogExecutor.Instance.StartDialog(_dialog);
+        //}
     }
 }
