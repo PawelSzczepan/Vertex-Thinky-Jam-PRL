@@ -8,6 +8,7 @@ public class DialogSelector : MonoBehaviour
     public static DialogSelector Instance { get; private set; }
 
     public List<Dialog> dialogs;
+    public Dialog defaultDialog;
 
     public Dialog GetDialog(Character character, QueryItemSO queryItem)
     {
@@ -21,7 +22,7 @@ public class DialogSelector : MonoBehaviour
         }
         if(fittingDialogs.Count == 0)
         {
-            return character.defaultDialog;
+            return defaultDialog;
         }
 
         // TODO: state of the riddle

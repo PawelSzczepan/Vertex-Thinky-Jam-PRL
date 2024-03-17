@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0dbb00fb1d6ede54abae47114c5a0f84, type: 3}
-  m_Name: Aneta_Default
+  m_Name: Default
   m_EditorClassIdentifier: 
   queryItem: {fileID: 0}
   character: {fileID: 11400000, guid: 4835e307d07d2674e9d6646b441c02fa, type: 2}
